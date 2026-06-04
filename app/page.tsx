@@ -1,20 +1,36 @@
-import { Suspense } from "react";
-import { LeadForm } from "@/components/LeadForm";
+import { Hero } from "@/components/Hero";
+import { FormSection } from "@/components/FormSection";
+import { CoachSection } from "@/components/CoachSection";
+import { AboutSection } from "@/components/AboutSection";
+import { StepsSection } from "@/components/StepsSection";
+import { TestimonialsSection } from "@/components/TestimonialsSection";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-white py-16 px-4">
-      <div className="max-w-lg mx-auto">
-        <h1 className="text-3xl font-bold text-center mb-2">
-          G1 Fitness
-        </h1>
-        <p className="text-gray-600 text-center mb-12">
-          Start your fitness journey today
-        </p>
-        <Suspense fallback={<div>Loading...</div>}>
-          <LeadForm />
-        </Suspense>
-      </div>
+    <main>
+      {/* 1. Hero with headline */}
+      <Hero />
+
+      {/* 2. Lead form (first appearance) */}
+      <FormSection variant="primary" />
+
+      {/* 3. Coach Kyle intro */}
+      <CoachSection />
+
+      {/* 4. About section */}
+      <AboutSection />
+
+      {/* 5. Testimonials (first set) */}
+      <TestimonialsSection variant="first" />
+
+      {/* 6. Steps to get started */}
+      <StepsSection />
+
+      {/* 7. Testimonials (second set) */}
+      <TestimonialsSection variant="second" />
+
+      {/* 8. Lead form (second appearance) */}
+      <FormSection variant="secondary" />
     </main>
   );
 }

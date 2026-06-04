@@ -5,20 +5,11 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 const STEPS = [
   {
-    id: "fitness_routine",
-    question: "Do you currently have a fitness routine?",
+    id: "has_routine",
+    question: "Do you already have a fitness routine?",
     options: [
-      { value: "yes", label: "Yes" },
       { value: "no", label: "No" },
-    ],
-  },
-  {
-    id: "experience_level",
-    question: "What's your fitness experience level?",
-    options: [
-      { value: "beginner", label: "Beginner — I'm just getting started" },
-      { value: "intermediate", label: "Intermediate — I've been at it for a while" },
-      { value: "advanced", label: "Advanced — I train regularly and push my limits" },
+      { value: "yes", label: "Yes" },
     ],
   },
   {
@@ -45,8 +36,7 @@ const STEPS = [
 const TOTAL_STEPS = STEPS.length + 1; // +1 for contact info step
 
 interface FormAnswers {
-  fitness_routine: string;
-  experience_level: string;
+  has_routine: string;
   primary_goal: string;
   timeline: string;
   name: string;
@@ -54,11 +44,16 @@ interface FormAnswers {
   phone: string;
 }
 
-export function LeadForm() {
+interface LeadFormProps {
+  formId?: string;
+}
+
+export function LeadForm({ formId = "lead-form" }: LeadFormProps) {
+  const searchParams = useSearchParams();
+
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<FormAnswers>({
-    fitness_routine: "",
-    experience_level: "",
+    has_routine: "",
     primary_goal: "",
     timeline: "",
     name: "",
@@ -69,12 +64,16 @@ export function LeadForm() {
   const [error, setError] = useState<string | null>(null);
 
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   const handleOptionSelect = (stepId: string, value: string) => {
     setAnswers((prev) => ({ ...prev, [stepId]: value }));
-    // Auto-advance to next step
     setCurrentStep((prev) => prev + 1);
+
+    // Scroll form to top of viewport
+    setTimeout(() => {
+      const form = document.getElementById(formId);
+      form?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 100);
   };
 
   const handleBack = () => {
@@ -92,7 +91,6 @@ export function LeadForm() {
     setIsSubmitting(true);
     setError(null);
 
-    // Capture UTM params
     const utmParams = {
       utm_source: searchParams.get("utm_source") || "",
       utm_medium: searchParams.get("utm_medium") || "",
@@ -125,12 +123,9 @@ export function LeadForm() {
 
   return (
     <div className="w-full max-w-lg mx-auto">
-      {/* Progress Bar */}
+      {/* Quick indicator - no numbered steps, just subtle progress */}
       <div className="mb-8">
-        <div className="flex justify-between text-sm text-gray-500 mb-2">
-          <span>Step {currentStep + 1} of {TOTAL_STEPS}</span>
-        </div>
-        <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+        <div className="h-1 bg-gray-200 rounded-full overflow-hidden">
           <div
             className="h-full bg-gray-900 transition-all duration-300 ease-out"
             style={{ width: `${progress}%` }}
@@ -141,30 +136,54 @@ export function LeadForm() {
       {/* Question Steps */}
       {!isContactStep && (
         <div>
-          <h2 className="text-2xl font-semibold mb-6">
+          <h2 className="text-2xl font-semibold mb-6 text-center">
             {STEPS[currentStep].question}
           </h2>
-          <div className="space-y-3">
-            {STEPS[currentStep].options.map((option) => (
+
+          {/* First step (has_routine) - CTA button style */}
+          {currentStep === 0 ? (
+            <div className="flex gap-4 justify-center">
               <button
-                key={option.value}
                 type="button"
-                onClick={() => handleOptionSelect(STEPS[currentStep].id, option.value)}
-                className="w-full p-4 text-left border-2 border-gray-200 rounded-lg hover:border-gray-900 hover:bg-gray-50 transition-colors cursor-pointer"
+                onClick={() => handleOptionSelect(STEPS[currentStep].id, "no")}
+                className="px-8 py-4 bg-gray-900 text-white font-semibold rounded-lg hover:bg-gray-800 transition-colors text-lg cursor-pointer"
               >
-                {option.label}
+                No
               </button>
-            ))}
-          </div>
+              <button
+                type="button"
+                onClick={() => handleOptionSelect(STEPS[currentStep].id, "yes")}
+                className="px-8 py-4 bg-gray-900 text-white font-semibold rounded-lg hover:bg-gray-800 transition-colors text-lg cursor-pointer"
+              >
+                Yes
+              </button>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {STEPS[currentStep].options.map((option) => (
+                <button
+                  key={option.value}
+                  type="button"
+                  onClick={() => handleOptionSelect(STEPS[currentStep].id, option.value)}
+                  className="w-full p-4 text-left border-2 border-gray-200 rounded-lg hover:border-gray-900 hover:bg-gray-50 transition-colors cursor-pointer"
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       )}
 
       {/* Contact Info Step */}
       {isContactStep && (
         <form onSubmit={handleSubmit}>
-          <h2 className="text-2xl font-semibold mb-6">
-            Last step — how can we reach you?
+          <h2 className="text-2xl font-semibold mb-2 text-center">
+            Where should we reach you?
           </h2>
+          <p className="text-gray-600 text-center mb-6">
+            We'll reach out to schedule your free sessions.
+          </p>
           <div className="space-y-4">
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
@@ -182,21 +201,6 @@ export function LeadForm() {
               />
             </div>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                required
-                value={answers.email}
-                onChange={(e) => handleContactChange("email", e.target.value)}
-                className="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-gray-900 focus:outline-none transition-colors"
-                placeholder="you@example.com"
-              />
-            </div>
-            <div>
               <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
                 Phone
               </label>
@@ -211,6 +215,21 @@ export function LeadForm() {
                 placeholder="(555) 123-4567"
               />
             </div>
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                value={answers.email}
+                onChange={(e) => handleContactChange("email", e.target.value)}
+                className="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-gray-900 focus:outline-none transition-colors"
+                placeholder="you@example.com"
+              />
+            </div>
           </div>
 
           {error && (
@@ -222,7 +241,7 @@ export function LeadForm() {
             disabled={isSubmitting}
             className="w-full mt-6 p-4 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-800 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors cursor-pointer"
           >
-            {isSubmitting ? "Submitting..." : "Submit"}
+            {isSubmitting ? "Submitting..." : "Claim My Free Week"}
           </button>
         </form>
       )}
