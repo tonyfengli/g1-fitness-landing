@@ -13,6 +13,7 @@ export function BeforeAfterSection() {
                   src="/david-before.jpg"
                   alt="David before joining G1 Fitness"
                   fill
+                  sizes="(max-width: 768px) 50vw, 25vw"
                   className="object-cover"
                 />
               </div>

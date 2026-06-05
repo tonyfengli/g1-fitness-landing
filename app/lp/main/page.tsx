@@ -6,9 +6,7 @@ import { OfferingsSection } from "@/components/skeletons/main/OfferingsSection";
 import { StepsSection } from "@/components/skeletons/main/StepsSection";
 import { BeforeAfterSection } from "@/components/skeletons/main/BeforeAfterSection";
 
-// Root page uses the main skeleton
-// For other variants, see /lp/main/dark, /lp/main/minimal, etc.
-export default function Home() {
+export default function MainLandingPage() {
   return (
     <main>
       {/* 1. Hero with headline */}

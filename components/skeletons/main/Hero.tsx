@@ -1,14 +1,18 @@
+import Image from "next/image";
+
 export function Hero() {
   return (
     <section className="w-full bg-white">
       <div className="max-w-7xl mx-auto grid md:grid-cols-2 min-h-[450px]">
         {/* Photo side - first on mobile */}
-        <div className="relative bg-gray-200 min-h-[200px] md:min-h-full md:order-2">
-          {/* TODO: Add hero image */}
-          {/* <Image src="/images/hero.jpg" alt="G1 Fitness coaching session" fill className="object-cover" priority /> */}
-          <div className="absolute inset-0 flex items-center justify-center text-gray-400">
-            <span className="text-sm">Hero Image</span>
-          </div>
+        <div className="relative bg-gray-200 min-h-[275px] md:min-h-full md:order-2">
+          <Image
+            src="/hero.jpg"
+            alt="G1 Fitness group class doing kettlebell exercises"
+            fill
+            className="object-cover"
+            priority
+          />
         </div>
 
         {/* Copy side - second on mobile, first on desktop */}
