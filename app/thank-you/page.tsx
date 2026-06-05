@@ -14,7 +14,7 @@ export default function ThankYouPage() {
         </div>
         <h1 className="text-3xl font-bold mb-4">You're All Set!</h1>
         <p className="text-lg text-gray-600 mb-6">
-          We'll reach out soon to schedule your free sessions.
+          We'll reach out soon to schedule your free week.
         </p>
         <div className="bg-white rounded-lg p-6 shadow-sm text-left">
           <p className="font-medium mb-3">What to expect:</p>
@@ -34,7 +34,7 @@ export default function ThankYouPage() {
           </ul>
         </div>
         <p className="mt-6 text-sm text-gray-500">
-          Questions? Call us at [PHONE NUMBER]
+          Questions? Call us at (714) 388-5115
         </p>
       </div>
     </main>

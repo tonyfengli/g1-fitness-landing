@@ -13,16 +13,12 @@ export function Hero() {
 
         {/* Copy side - second on mobile, first on desktop */}
         <div className="flex flex-col justify-center px-6 py-8 md:py-12 md:px-12 lg:px-16 md:order-1">
-          <p className="text-lg md:text-xl font-bold text-gray-900 uppercase tracking-wide mb-3 text-center">
+          <p className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-4">
             West Anaheim · Buena Park · Cypress
           </p>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-gray-900 mb-4">
-            The fastest-growing local gym near you
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold leading-snug text-gray-900">
+            Join the fastest-growing local gym that serves busy adults who need a routine that lasts and a community that will keep them going.
           </h1>
-
-          <p className="text-xl md:text-2xl text-gray-600">
-            For busy adults who need a routine that lasts and a community that will keep them going.
-          </p>
         </div>
       </div>
     </section>

@@ -182,7 +182,7 @@ export function LeadForm({ formId = "lead-form" }: LeadFormProps) {
             Where should we reach you?
           </h2>
           <p className="text-gray-600 text-center mb-6">
-            We'll reach out to schedule your free sessions.
+            We'll reach out to schedule your free week.
           </p>
           <div className="space-y-4">
             <div>
@@ -241,7 +241,7 @@ export function LeadForm({ formId = "lead-form" }: LeadFormProps) {
             disabled={isSubmitting}
             className="w-full mt-6 p-4 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-800 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors cursor-pointer"
           >
-            {isSubmitting ? "Submitting..." : "Claim My Free Week"}
+            {isSubmitting ? "Submitting..." : "Get My Free Week"}
           </button>
         </form>
       )}
