@@ -46,12 +46,13 @@ interface FormAnswers {
 
 interface LeadFormProps {
   formId?: string;
-  variant?: "light" | "dark" | "clean";
+  variant?: "light" | "dark" | "clean" | "tech";
 }
 
 export function LeadForm({ formId = "lead-form", variant = "light" }: LeadFormProps) {
   const isDark = variant === "dark";
   const isClean = variant === "clean";
+  const isTech = variant === "tech";
   const searchParams = useSearchParams();
 
   const [currentStep, setCurrentStep] = useState(0);
@@ -128,9 +129,9 @@ export function LeadForm({ formId = "lead-form", variant = "light" }: LeadFormPr
     <div className="w-full max-w-lg mx-auto">
       {/* Quick indicator - no numbered steps, just subtle progress */}
       <div className="mb-8">
-        <div className={`h-1 overflow-hidden ${isDark ? "bg-[#262626]" : isClean ? "bg-[#e2e2e2]" : "bg-gray-200"}`}>
+        <div className={`h-1 overflow-hidden ${isDark ? "bg-[#262626]" : isClean ? "bg-[#e2e2e2]" : isTech ? "bg-[#334155]" : "bg-gray-200"}`}>
           <div
-            className={`h-full transition-all duration-300 ease-out ${isDark ? "bg-[#ff2e2e]" : isClean ? "bg-[#bb0012]" : "bg-gray-900"}`}
+            className={`h-full transition-all duration-300 ease-out ${isDark ? "bg-[#ff2e2e]" : isClean ? "bg-[#bb0012]" : isTech ? "bg-[#e11d48]" : "bg-gray-900"}`}
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -139,10 +140,10 @@ export function LeadForm({ formId = "lead-form", variant = "light" }: LeadFormPr
       {/* Question Steps */}
       {!isContactStep && (
         <div>
-          <p className={`text-xs uppercase tracking-widest text-center mb-4 ${isDark ? "text-[#737373]" : isClean ? "text-[#5f5e5e]" : "text-gray-400"}`}>
+          <p className={`text-xs uppercase tracking-widest text-center mb-4 ${isDark ? "text-[#737373]" : isClean ? "text-[#5f5e5e]" : isTech ? "text-[#94a3b8] font-mono" : "text-gray-400"}`}>
             {currentStep + 1} of {TOTAL_STEPS}
           </p>
-          <h2 className={`text-2xl font-semibold mb-6 text-center ${isDark ? "text-white" : isClean ? "text-[#1a1c1c]" : ""}`}>
+          <h2 className={`text-2xl font-semibold mb-6 text-center ${isDark ? "text-white" : isClean ? "text-[#1a1c1c]" : isTech ? "text-[#d4e4fa]" : ""}`}>
             {STEPS[currentStep].question}
           </h2>
 
@@ -157,6 +158,8 @@ export function LeadForm({ formId = "lead-form", variant = "light" }: LeadFormPr
                     ? "bg-[#ff2e2e] text-white hover:scale-105 active:scale-95"
                     : isClean
                     ? "bg-[#bb0012] text-white hover:opacity-90 active:scale-95"
+                    : isTech
+                    ? "bg-[#e11d48] text-white hover:opacity-90 active:scale-95 uppercase tracking-wider"
                     : "bg-gray-900 text-white rounded-lg hover:bg-gray-800"
                 }`}
               >
@@ -170,6 +173,8 @@ export function LeadForm({ formId = "lead-form", variant = "light" }: LeadFormPr
                     ? "bg-[#ff2e2e] text-white hover:scale-105 active:scale-95"
                     : isClean
                     ? "bg-[#bb0012] text-white hover:opacity-90 active:scale-95"
+                    : isTech
+                    ? "bg-[#e11d48] text-white hover:opacity-90 active:scale-95 uppercase tracking-wider"
                     : "bg-gray-900 text-white rounded-lg hover:bg-gray-800"
                 }`}
               >
@@ -188,6 +193,8 @@ export function LeadForm({ formId = "lead-form", variant = "light" }: LeadFormPr
                       ? "border-[#333333] bg-[#0d0d0d] hover:border-[#ff2e2e] text-[#e5e2e1]"
                       : isClean
                       ? "border-[#1a1c1c]/10 bg-white hover:border-[#bb0012] text-[#1a1c1c]"
+                      : isTech
+                      ? "border-[#334155] bg-[#051424] hover:border-[#e11d48] text-[#d4e4fa]"
                       : "border-2 border-gray-200 rounded-lg hover:border-gray-900 hover:bg-gray-50"
                   }`}
                 >
@@ -202,18 +209,18 @@ export function LeadForm({ formId = "lead-form", variant = "light" }: LeadFormPr
       {/* Contact Info Step */}
       {isContactStep && (
         <form onSubmit={handleSubmit}>
-          <p className={`text-xs uppercase tracking-widest text-center mb-4 ${isDark ? "text-[#737373]" : isClean ? "text-[#5f5e5e]" : "text-gray-400"}`}>
+          <p className={`text-xs uppercase tracking-widest text-center mb-4 ${isDark ? "text-[#737373]" : isClean ? "text-[#5f5e5e]" : isTech ? "text-[#94a3b8] font-mono" : "text-gray-400"}`}>
             {TOTAL_STEPS} of {TOTAL_STEPS}
           </p>
-          <h2 className={`text-2xl font-semibold mb-2 text-center ${isDark ? "text-white" : isClean ? "text-[#1a1c1c]" : ""}`}>
+          <h2 className={`text-2xl font-semibold mb-2 text-center ${isDark ? "text-white" : isClean ? "text-[#1a1c1c]" : isTech ? "text-[#d4e4fa]" : ""}`}>
             Where should we reach you?
           </h2>
-          <p className={`text-center mb-6 ${isDark ? "text-[#737373]" : isClean ? "text-[#5f5e5e]" : "text-gray-600"}`}>
+          <p className={`text-center mb-6 ${isDark ? "text-[#737373]" : isClean ? "text-[#5f5e5e]" : isTech ? "text-[#bec6e0]" : "text-gray-600"}`}>
             We'll reach out to schedule your free week.
           </p>
           <div className="space-y-4">
             <div>
-              <label htmlFor="name" className={`block text-sm font-medium mb-1 ${isDark ? "text-[#737373] uppercase tracking-wider" : isClean ? "text-[#5f5e5e] uppercase tracking-wider" : "text-gray-700"}`}>
+              <label htmlFor="name" className={`block text-sm font-medium mb-1 ${isDark ? "text-[#737373] uppercase tracking-wider" : isClean ? "text-[#5f5e5e] uppercase tracking-wider" : isTech ? "text-[#94a3b8] uppercase tracking-wider font-mono text-xs" : "text-gray-700"}`}>
                 Name
               </label>
               <input
@@ -228,13 +235,15 @@ export function LeadForm({ formId = "lead-form", variant = "light" }: LeadFormPr
                     ? "bg-[#0d0d0d] border-[#333333] focus:border-[#ff2e2e] text-white placeholder-[#737373]"
                     : isClean
                     ? "bg-white border-[#1a1c1c]/20 border-b-2 border-t-0 border-l-0 border-r-0 focus:border-[#bb0012] text-[#1a1c1c] placeholder-[#5f5e5e]"
+                    : isTech
+                    ? "bg-[#051424] border-[#334155] focus:border-[#e11d48] text-[#d4e4fa] placeholder-[#94a3b8]"
                     : "border-2 border-gray-200 rounded-lg focus:border-gray-900"
                 }`}
                 placeholder="Your name"
               />
             </div>
             <div>
-              <label htmlFor="phone" className={`block text-sm font-medium mb-1 ${isDark ? "text-[#737373] uppercase tracking-wider" : isClean ? "text-[#5f5e5e] uppercase tracking-wider" : "text-gray-700"}`}>
+              <label htmlFor="phone" className={`block text-sm font-medium mb-1 ${isDark ? "text-[#737373] uppercase tracking-wider" : isClean ? "text-[#5f5e5e] uppercase tracking-wider" : isTech ? "text-[#94a3b8] uppercase tracking-wider font-mono text-xs" : "text-gray-700"}`}>
                 Phone
               </label>
               <input
@@ -249,13 +258,15 @@ export function LeadForm({ formId = "lead-form", variant = "light" }: LeadFormPr
                     ? "bg-[#0d0d0d] border-[#333333] focus:border-[#ff2e2e] text-white placeholder-[#737373]"
                     : isClean
                     ? "bg-white border-[#1a1c1c]/20 border-b-2 border-t-0 border-l-0 border-r-0 focus:border-[#bb0012] text-[#1a1c1c] placeholder-[#5f5e5e]"
+                    : isTech
+                    ? "bg-[#051424] border-[#334155] focus:border-[#e11d48] text-[#d4e4fa] placeholder-[#94a3b8]"
                     : "border-2 border-gray-200 rounded-lg focus:border-gray-900"
                 }`}
                 placeholder="(555) 123-4567"
               />
             </div>
             <div>
-              <label htmlFor="email" className={`block text-sm font-medium mb-1 ${isDark ? "text-[#737373] uppercase tracking-wider" : isClean ? "text-[#5f5e5e] uppercase tracking-wider" : "text-gray-700"}`}>
+              <label htmlFor="email" className={`block text-sm font-medium mb-1 ${isDark ? "text-[#737373] uppercase tracking-wider" : isClean ? "text-[#5f5e5e] uppercase tracking-wider" : isTech ? "text-[#94a3b8] uppercase tracking-wider font-mono text-xs" : "text-gray-700"}`}>
                 Email
               </label>
               <input
@@ -270,6 +281,8 @@ export function LeadForm({ formId = "lead-form", variant = "light" }: LeadFormPr
                     ? "bg-[#0d0d0d] border-[#333333] focus:border-[#ff2e2e] text-white placeholder-[#737373]"
                     : isClean
                     ? "bg-white border-[#1a1c1c]/20 border-b-2 border-t-0 border-l-0 border-r-0 focus:border-[#bb0012] text-[#1a1c1c] placeholder-[#5f5e5e]"
+                    : isTech
+                    ? "bg-[#051424] border-[#334155] focus:border-[#e11d48] text-[#d4e4fa] placeholder-[#94a3b8]"
                     : "border-2 border-gray-200 rounded-lg focus:border-gray-900"
                 }`}
                 placeholder="you@example.com"
@@ -278,7 +291,7 @@ export function LeadForm({ formId = "lead-form", variant = "light" }: LeadFormPr
           </div>
 
           {error && (
-            <p className={`mt-4 text-sm ${isDark ? "text-[#ff2e2e]" : isClean ? "text-[#bb0012]" : "text-red-600"}`}>{error}</p>
+            <p className={`mt-4 text-sm ${isDark ? "text-[#ff2e2e]" : isClean ? "text-[#bb0012]" : isTech ? "text-[#ffb3b6]" : "text-red-600"}`}>{error}</p>
           )}
 
           <button
@@ -289,6 +302,8 @@ export function LeadForm({ formId = "lead-form", variant = "light" }: LeadFormPr
                 ? "bg-[#ff2e2e] text-white hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50"
                 : isClean
                 ? "bg-[#bb0012] text-white hover:opacity-90 active:scale-[0.98] disabled:opacity-50"
+                : isTech
+                ? "bg-[#e11d48] text-white hover:opacity-90 active:scale-[0.98] disabled:opacity-50 uppercase tracking-wider"
                 : "bg-gray-900 text-white rounded-lg hover:bg-gray-800 disabled:bg-gray-400"
             }`}
           >
@@ -303,7 +318,7 @@ export function LeadForm({ formId = "lead-form", variant = "light" }: LeadFormPr
           type="button"
           onClick={handleBack}
           className={`mt-6 transition-colors cursor-pointer ${
-            isDark ? "text-[#737373] hover:text-white" : isClean ? "text-[#5f5e5e] hover:text-[#1a1c1c]" : "text-gray-500 hover:text-gray-900"
+            isDark ? "text-[#737373] hover:text-white" : isClean ? "text-[#5f5e5e] hover:text-[#1a1c1c]" : isTech ? "text-[#94a3b8] hover:text-[#ffb3b6] font-mono text-sm" : "text-gray-500 hover:text-gray-900"
           }`}
         >
           ← Back
