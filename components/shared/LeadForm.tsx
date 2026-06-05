@@ -46,9 +46,11 @@ interface FormAnswers {
 
 interface LeadFormProps {
   formId?: string;
+  variant?: "light" | "dark";
 }
 
-export function LeadForm({ formId = "lead-form" }: LeadFormProps) {
+export function LeadForm({ formId = "lead-form", variant = "light" }: LeadFormProps) {
+  const isDark = variant === "dark";
   const searchParams = useSearchParams();
 
   const [currentStep, setCurrentStep] = useState(0);
@@ -125,9 +127,9 @@ export function LeadForm({ formId = "lead-form" }: LeadFormProps) {
     <div className="w-full max-w-lg mx-auto">
       {/* Quick indicator - no numbered steps, just subtle progress */}
       <div className="mb-8">
-        <div className="h-1 bg-gray-200 rounded-full overflow-hidden">
+        <div className={`h-1 ${isDark ? "bg-[#262626]" : "bg-gray-200"} overflow-hidden`}>
           <div
-            className="h-full bg-gray-900 transition-all duration-300 ease-out"
+            className={`h-full ${isDark ? "bg-[#ff2e2e]" : "bg-gray-900"} transition-all duration-300 ease-out`}
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -136,7 +138,10 @@ export function LeadForm({ formId = "lead-form" }: LeadFormProps) {
       {/* Question Steps */}
       {!isContactStep && (
         <div>
-          <h2 className="text-2xl font-semibold mb-6 text-center">
+          <p className={`text-xs uppercase tracking-widest text-center mb-4 ${isDark ? "text-[#737373]" : "text-gray-400"}`}>
+            {currentStep + 1} of {TOTAL_STEPS}
+          </p>
+          <h2 className={`text-2xl font-semibold mb-6 text-center ${isDark ? "text-white" : ""}`}>
             {STEPS[currentStep].question}
           </h2>
 
@@ -146,14 +151,22 @@ export function LeadForm({ formId = "lead-form" }: LeadFormProps) {
               <button
                 type="button"
                 onClick={() => handleOptionSelect(STEPS[currentStep].id, "no")}
-                className="px-8 py-4 bg-gray-900 text-white font-semibold rounded-lg hover:bg-gray-800 transition-colors text-lg cursor-pointer"
+                className={`px-8 py-4 font-semibold text-lg cursor-pointer transition-all ${
+                  isDark
+                    ? "bg-[#ff2e2e] text-white hover:scale-105 active:scale-95"
+                    : "bg-gray-900 text-white rounded-lg hover:bg-gray-800"
+                }`}
               >
                 No
               </button>
               <button
                 type="button"
                 onClick={() => handleOptionSelect(STEPS[currentStep].id, "yes")}
-                className="px-8 py-4 bg-gray-900 text-white font-semibold rounded-lg hover:bg-gray-800 transition-colors text-lg cursor-pointer"
+                className={`px-8 py-4 font-semibold text-lg cursor-pointer transition-all ${
+                  isDark
+                    ? "bg-[#ff2e2e] text-white hover:scale-105 active:scale-95"
+                    : "bg-gray-900 text-white rounded-lg hover:bg-gray-800"
+                }`}
               >
                 Yes
               </button>
@@ -165,7 +178,11 @@ export function LeadForm({ formId = "lead-form" }: LeadFormProps) {
                   key={option.value}
                   type="button"
                   onClick={() => handleOptionSelect(STEPS[currentStep].id, option.value)}
-                  className="w-full p-4 text-left border-2 border-gray-200 rounded-lg hover:border-gray-900 hover:bg-gray-50 transition-colors cursor-pointer"
+                  className={`w-full p-4 text-left border transition-colors cursor-pointer ${
+                    isDark
+                      ? "border-[#333333] bg-[#0d0d0d] hover:border-[#ff2e2e] text-[#e5e2e1]"
+                      : "border-2 border-gray-200 rounded-lg hover:border-gray-900 hover:bg-gray-50"
+                  }`}
                 >
                   {option.label}
                 </button>
@@ -178,15 +195,18 @@ export function LeadForm({ formId = "lead-form" }: LeadFormProps) {
       {/* Contact Info Step */}
       {isContactStep && (
         <form onSubmit={handleSubmit}>
-          <h2 className="text-2xl font-semibold mb-2 text-center">
+          <p className={`text-xs uppercase tracking-widest text-center mb-4 ${isDark ? "text-[#737373]" : "text-gray-400"}`}>
+            {TOTAL_STEPS} of {TOTAL_STEPS}
+          </p>
+          <h2 className={`text-2xl font-semibold mb-2 text-center ${isDark ? "text-white" : ""}`}>
             Where should we reach you?
           </h2>
-          <p className="text-gray-600 text-center mb-6">
+          <p className={`text-center mb-6 ${isDark ? "text-[#737373]" : "text-gray-600"}`}>
             We'll reach out to schedule your free week.
           </p>
           <div className="space-y-4">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="name" className={`block text-sm font-medium mb-1 ${isDark ? "text-[#737373] uppercase tracking-wider" : "text-gray-700"}`}>
                 Name
               </label>
               <input
@@ -196,12 +216,16 @@ export function LeadForm({ formId = "lead-form" }: LeadFormProps) {
                 required
                 value={answers.name}
                 onChange={(e) => handleContactChange("name", e.target.value)}
-                className="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-gray-900 focus:outline-none transition-colors"
+                className={`w-full p-3 border transition-colors focus:outline-none ${
+                  isDark
+                    ? "bg-[#0d0d0d] border-[#333333] focus:border-[#ff2e2e] text-white placeholder-[#737373]"
+                    : "border-2 border-gray-200 rounded-lg focus:border-gray-900"
+                }`}
                 placeholder="Your name"
               />
             </div>
             <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="phone" className={`block text-sm font-medium mb-1 ${isDark ? "text-[#737373] uppercase tracking-wider" : "text-gray-700"}`}>
                 Phone
               </label>
               <input
@@ -211,12 +235,16 @@ export function LeadForm({ formId = "lead-form" }: LeadFormProps) {
                 required
                 value={answers.phone}
                 onChange={(e) => handleContactChange("phone", e.target.value)}
-                className="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-gray-900 focus:outline-none transition-colors"
+                className={`w-full p-3 border transition-colors focus:outline-none ${
+                  isDark
+                    ? "bg-[#0d0d0d] border-[#333333] focus:border-[#ff2e2e] text-white placeholder-[#737373]"
+                    : "border-2 border-gray-200 rounded-lg focus:border-gray-900"
+                }`}
                 placeholder="(555) 123-4567"
               />
             </div>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="email" className={`block text-sm font-medium mb-1 ${isDark ? "text-[#737373] uppercase tracking-wider" : "text-gray-700"}`}>
                 Email
               </label>
               <input
@@ -226,20 +254,28 @@ export function LeadForm({ formId = "lead-form" }: LeadFormProps) {
                 required
                 value={answers.email}
                 onChange={(e) => handleContactChange("email", e.target.value)}
-                className="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-gray-900 focus:outline-none transition-colors"
+                className={`w-full p-3 border transition-colors focus:outline-none ${
+                  isDark
+                    ? "bg-[#0d0d0d] border-[#333333] focus:border-[#ff2e2e] text-white placeholder-[#737373]"
+                    : "border-2 border-gray-200 rounded-lg focus:border-gray-900"
+                }`}
                 placeholder="you@example.com"
               />
             </div>
           </div>
 
           {error && (
-            <p className="mt-4 text-red-600 text-sm">{error}</p>
+            <p className={`mt-4 text-sm ${isDark ? "text-[#ff2e2e]" : "text-red-600"}`}>{error}</p>
           )}
 
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full mt-6 p-4 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-800 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors cursor-pointer"
+            className={`w-full mt-6 p-4 font-medium transition-all cursor-pointer disabled:cursor-not-allowed ${
+              isDark
+                ? "bg-[#ff2e2e] text-white hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50"
+                : "bg-gray-900 text-white rounded-lg hover:bg-gray-800 disabled:bg-gray-400"
+            }`}
           >
             {isSubmitting ? "Submitting..." : "Get My Free Week"}
           </button>
@@ -251,7 +287,9 @@ export function LeadForm({ formId = "lead-form" }: LeadFormProps) {
         <button
           type="button"
           onClick={handleBack}
-          className="mt-6 text-gray-500 hover:text-gray-900 transition-colors cursor-pointer"
+          className={`mt-6 transition-colors cursor-pointer ${
+            isDark ? "text-[#737373] hover:text-white" : "text-gray-500 hover:text-gray-900"
+          }`}
         >
           ← Back
         </button>
