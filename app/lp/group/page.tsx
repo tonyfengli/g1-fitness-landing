@@ -134,52 +134,59 @@ export default function GroupClassesLandingPage() {
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6">
-            {/* Semi-Private */}
-            <div className="bg-white border border-[#1a1c1c]/10 p-8 hover:border-[#bb0012] transition-all duration-300">
-              <div className="flex justify-between items-start mb-8">
-                <span className="text-[#bb0012] text-4xl">👥</span>
-                <span className="text-xs uppercase tracking-widest text-[#5f5e5e]">4–6 Clients</span>
+          {/* Small Group Classes - Primary */}
+          <div className="bg-white border-2 border-[#bb0012] p-8 mb-6">
+            <h4 className="font-bebas text-3xl uppercase mb-4 text-[#1a1c1c]">Small Group Classes</h4>
+            <p className="text-[#5f5e5e] mb-6">
+              Personalized coaching in a group setting. Every session is led by a coach who knows your name, corrects your form in real time, and adjusts the workout to your level—so you get personal training attention at a fraction of the cost.
+            </p>
+            <div className="grid md:grid-cols-3 gap-6 mb-6">
+              <div>
+                <h5 className="font-bebas text-lg uppercase text-[#bb0012] mb-1">Functional Strength</h5>
+                <p className="text-[#5f5e5e] text-sm">Real strength for everyday life—lifting, moving, playing without pain.</p>
               </div>
-              <h4 className="font-bebas text-2xl uppercase mb-4 text-[#1a1c1c]">Semi-Private Sessions</h4>
-              <p className="text-[#5f5e5e] mb-8">
-                Personalized coaching in small groups. Every workout is built around your goals, your body, and your pace—adapting as you progress.
-              </p>
-              <ul className="space-y-3 text-sm text-[#1a1c1c]">
-                <li className="flex items-center gap-2">
-                  <span className="text-[#bb0012]">✓</span> Personalized Coaching
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-[#bb0012]">✓</span> Form Correction
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-[#bb0012]">✓</span> Progress Tracking
-                </li>
-              </ul>
+              <div>
+                <h5 className="font-bebas text-lg uppercase text-[#bb0012] mb-1">Lasting Mobility</h5>
+                <p className="text-[#5f5e5e] text-sm">Bodies that stay active for decades, not just months.</p>
+              </div>
+              <div>
+                <h5 className="font-bebas text-lg uppercase text-[#bb0012] mb-1">Body Composition</h5>
+                <p className="text-[#5f5e5e] text-sm">Lose fat, build lean muscle, see measurable changes.</p>
+              </div>
             </div>
+            <ul className="flex flex-wrap gap-4 text-sm text-[#1a1c1c]">
+              <li className="flex items-center gap-2">
+                <span className="text-[#bb0012]">✓</span> Heart Health Focus
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-[#bb0012]">✓</span> Community Energy
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-[#bb0012]">✓</span> Scaleable Intensity
+              </li>
+            </ul>
+          </div>
 
-            {/* HIIT */}
-            <div className="bg-white border border-[#1a1c1c]/10 p-8 hover:border-[#bb0012] transition-all duration-300">
-              <div className="flex justify-between items-start mb-8">
-                <span className="text-[#bb0012] text-4xl">⚡</span>
-                <span className="text-xs uppercase tracking-widest text-[#5f5e5e]">45 Minutes</span>
-              </div>
-              <h4 className="font-bebas text-2xl uppercase mb-4 text-[#1a1c1c]">HIIT Classes</h4>
-              <p className="text-[#5f5e5e] mb-8">
-                High-energy group workouts alongside people who want to see you win. Coached intervals designed to keep your heart rate elevated.
-              </p>
-              <ul className="space-y-3 text-sm text-[#1a1c1c]">
-                <li className="flex items-center gap-2">
-                  <span className="text-[#bb0012]">✓</span> Heart Health Focus
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-[#bb0012]">✓</span> Community Energy
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-[#bb0012]">✓</span> Scaleable Intensity
-                </li>
-              </ul>
+          {/* Semi-Private */}
+          <div className="bg-white border border-[#1a1c1c]/10 p-8 hover:border-[#bb0012] transition-all duration-300">
+            <div className="mb-8">
+              <span className="text-[#bb0012] text-4xl">👥</span>
             </div>
+            <h4 className="font-bebas text-2xl uppercase mb-4 text-[#1a1c1c]">Semi-Private Training</h4>
+            <p className="text-[#5f5e5e] mb-8">
+              Even more attention. With only 4–6 clients per session, your coach builds every workout around your goals, your body, and your pace—adapting as you progress.
+            </p>
+            <ul className="space-y-3 text-sm text-[#1a1c1c]">
+              <li className="flex items-center gap-2">
+                <span className="text-[#bb0012]">✓</span> Personalized Coaching
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-[#bb0012]">✓</span> Form Correction
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-[#bb0012]">✓</span> Progress Tracking
+              </li>
+            </ul>
           </div>
         </div>
       </section>
@@ -310,7 +317,7 @@ export default function GroupClassesLandingPage() {
           </div>
         </div>
         <p className="text-center mt-16 text-[10px] text-[#5f5e5e] opacity-50 uppercase tracking-[0.3em]">
-          © 2024 G1 Fitness. All rights reserved.
+          © 2026 G1 Fitness. All rights reserved.
         </p>
       </footer>
     </main>
