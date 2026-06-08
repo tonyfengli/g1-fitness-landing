@@ -125,10 +125,19 @@ export function LeadForm({ formId = "lead-form", variant = "light" }: LeadFormPr
   const isContactStep = currentStep === STEPS.length;
   const progress = ((currentStep + 1) / TOTAL_STEPS) * 100;
 
+  // Visibility/opacity styles for crossfade effect
+  const getStepStyles = (isVisible: boolean): React.CSSProperties => ({
+    visibility: isVisible ? "visible" : "hidden",
+    opacity: isVisible ? 1 : 0,
+    transition: isVisible
+      ? "visibility 0s linear 0s, opacity 200ms ease-out"
+      : "visibility 0s linear 200ms, opacity 200ms ease-out",
+  });
+
   return (
-    <div className="w-full max-w-lg mx-auto">
-      {/* Quick indicator - no numbered steps, just subtle progress */}
-      <div className="mb-8">
+    <div className="w-full max-w-2xl mx-auto">
+      {/* Progress bar */}
+      <div className="mb-4">
         <div className={`h-1 overflow-hidden ${isDark ? "bg-[#262626]" : isClean ? "bg-[#e2e2e2]" : isTech ? "bg-[#334155]" : "bg-gray-200"}`}>
           <div
             className={`h-full transition-all duration-300 ease-out ${isDark ? "bg-[#ff2e2e]" : isClean ? "bg-[#bb0012]" : isTech ? "bg-[#e11d48]" : "bg-gray-900"}`}
@@ -137,190 +146,192 @@ export function LeadForm({ formId = "lead-form", variant = "light" }: LeadFormPr
         </div>
       </div>
 
-      {/* Question Steps */}
-      {!isContactStep && (
-        <div>
-          <p className={`text-xs uppercase tracking-widest text-center mb-4 ${isDark ? "text-[#737373]" : isClean ? "text-[#5f5e5e]" : isTech ? "text-[#94a3b8] font-mono" : "text-gray-400"}`}>
-            {currentStep + 1} of {TOTAL_STEPS}
-          </p>
-          <h2 className={`text-2xl font-semibold mb-6 text-center ${isDark ? "text-white" : isClean ? "text-[#1a1c1c]" : isTech ? "text-[#d4e4fa]" : ""}`}>
-            {STEPS[currentStep].question}
-          </h2>
+      {/* Step counter - always visible */}
+      <p className={`text-xs uppercase tracking-widest text-center mb-4 ${isDark ? "text-[#737373]" : isClean ? "text-[#5f5e5e]" : isTech ? "text-[#94a3b8] font-mono" : "text-gray-400"}`}>
+        {currentStep + 1} of {TOTAL_STEPS}
+      </p>
 
-          {/* First step (has_routine) - CTA button style */}
-          {currentStep === 0 ? (
-            <div className="flex gap-4 justify-center">
-              <button
-                type="button"
-                onClick={() => handleOptionSelect(STEPS[currentStep].id, "no")}
-                className={`px-8 py-4 font-semibold text-lg cursor-pointer transition-all ${
-                  isDark
-                    ? "bg-[#ff2e2e] text-white hover:scale-105 active:scale-95"
-                    : isClean
-                    ? "bg-[#bb0012] text-white hover:opacity-90 active:scale-95"
-                    : isTech
-                    ? "bg-[#e11d48] text-white hover:opacity-90 active:scale-95 uppercase tracking-wider"
-                    : "bg-gray-900 text-white rounded-lg hover:bg-gray-800"
-                }`}
-              >
-                No
-              </button>
-              <button
-                type="button"
-                onClick={() => handleOptionSelect(STEPS[currentStep].id, "yes")}
-                className={`px-8 py-4 font-semibold text-lg cursor-pointer transition-all ${
-                  isDark
-                    ? "bg-[#ff2e2e] text-white hover:scale-105 active:scale-95"
-                    : isClean
-                    ? "bg-[#bb0012] text-white hover:opacity-90 active:scale-95"
-                    : isTech
-                    ? "bg-[#e11d48] text-white hover:opacity-90 active:scale-95 uppercase tracking-wider"
-                    : "bg-gray-900 text-white rounded-lg hover:bg-gray-800"
-                }`}
-              >
-                Yes
-              </button>
+      {/* Grid stack container - question steps only (similar heights) */}
+      {!isContactStep && (
+        <div className="grid items-start" style={{ gridTemplateColumns: "1fr", gridTemplateRows: "auto" }}>
+          {STEPS.map((step, index) => (
+            <div
+              key={step.id}
+              style={{ ...getStepStyles(currentStep === index), gridArea: "1 / 1" }}
+            >
+              <h2 className={`text-lg font-semibold mb-3 text-center ${isDark ? "text-white" : isClean ? "text-[#1a1c1c]" : isTech ? "text-[#d4e4fa]" : ""}`}>
+                {step.question}
+              </h2>
+
+              {/* First step - bold CTA buttons */}
+              {index === 0 ? (
+                <div className="flex gap-4 justify-center">
+                  {step.options.map((option) => (
+                    <button
+                      key={option.value}
+                      type="button"
+                      onClick={() => handleOptionSelect(step.id, option.value)}
+                      tabIndex={currentStep === index ? 0 : -1}
+                      className={`px-10 py-4 font-bold text-lg cursor-pointer transition-all ${
+                        isDark
+                          ? "bg-[#ff2e2e] text-white hover:scale-105 active:scale-95"
+                          : isClean
+                          ? "bg-[#bb0012] text-white hover:opacity-90 active:scale-95"
+                          : isTech
+                          ? "bg-[#e11d48] text-white hover:opacity-90 active:scale-95 uppercase tracking-wider"
+                          : "bg-gray-900 text-white rounded-lg hover:bg-gray-800"
+                      }`}
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                /* Grid of option buttons for other steps */
+                <div className="grid grid-cols-2 gap-4">
+                  {step.options.map((option) => (
+                    <button
+                      key={option.value}
+                      type="button"
+                      onClick={() => handleOptionSelect(step.id, option.value)}
+                      tabIndex={currentStep === index ? 0 : -1}
+                      className={`py-5 px-5 font-bold text-base flex items-center justify-center text-center transition-all duration-150 cursor-pointer active:scale-95 ${
+                        isDark
+                          ? "bg-[#ff2e2e] text-white shadow-xl"
+                          : isClean
+                          ? "bg-[#bb0012] text-white shadow-xl"
+                          : isTech
+                          ? "bg-[#e11d48] text-white shadow-xl"
+                          : "bg-gray-900 text-white shadow-xl rounded-lg"
+                      }`}
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
-          ) : (
-            <div className="space-y-3">
-              {STEPS[currentStep].options.map((option) => (
-                <button
-                  key={option.value}
-                  type="button"
-                  onClick={() => handleOptionSelect(STEPS[currentStep].id, option.value)}
-                  className={`w-full p-4 text-left border transition-colors cursor-pointer ${
-                    isDark
-                      ? "border-[#333333] bg-[#0d0d0d] hover:border-[#ff2e2e] text-[#e5e2e1]"
-                      : isClean
-                      ? "border-[#1a1c1c]/10 bg-white hover:border-[#bb0012] text-[#1a1c1c]"
-                      : isTech
-                      ? "border-[#334155] bg-[#051424] hover:border-[#e11d48] text-[#d4e4fa]"
-                      : "border-2 border-gray-200 rounded-lg hover:border-gray-900 hover:bg-gray-50"
-                  }`}
-                >
-                  {option.label}
-                </button>
-              ))}
-            </div>
-          )}
+          ))}
         </div>
       )}
 
-      {/* Contact Info Step */}
+      {/* Contact Info Step - rendered separately */}
       {isContactStep && (
-        <form onSubmit={handleSubmit}>
-          <p className={`text-xs uppercase tracking-widest text-center mb-4 ${isDark ? "text-[#737373]" : isClean ? "text-[#5f5e5e]" : isTech ? "text-[#94a3b8] font-mono" : "text-gray-400"}`}>
-            {TOTAL_STEPS} of {TOTAL_STEPS}
-          </p>
-          <h2 className={`text-2xl font-semibold mb-2 text-center ${isDark ? "text-white" : isClean ? "text-[#1a1c1c]" : isTech ? "text-[#d4e4fa]" : ""}`}>
-            Where should we reach you?
-          </h2>
-          <p className={`text-center mb-6 ${isDark ? "text-[#737373]" : isClean ? "text-[#5f5e5e]" : isTech ? "text-[#bec6e0]" : "text-gray-600"}`}>
-            We'll reach out to schedule your free week.
-          </p>
-          <div className="space-y-4">
-            <div>
-              <label htmlFor="name" className={`block text-sm font-medium mb-1 ${isDark ? "text-[#737373] uppercase tracking-wider" : isClean ? "text-[#5f5e5e] uppercase tracking-wider" : isTech ? "text-[#94a3b8] uppercase tracking-wider font-mono text-xs" : "text-gray-700"}`}>
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                required
-                value={answers.name}
-                onChange={(e) => handleContactChange("name", e.target.value)}
-                className={`w-full p-3 border transition-colors focus:outline-none ${
-                  isDark
-                    ? "bg-[#0d0d0d] border-[#333333] focus:border-[#ff2e2e] text-white placeholder-[#737373]"
-                    : isClean
-                    ? "bg-white border-[#1a1c1c]/20 border-b-2 border-t-0 border-l-0 border-r-0 focus:border-[#bb0012] text-[#1a1c1c] placeholder-[#5f5e5e]"
-                    : isTech
-                    ? "bg-[#051424] border-[#334155] focus:border-[#e11d48] text-[#d4e4fa] placeholder-[#94a3b8]"
-                    : "border-2 border-gray-200 rounded-lg focus:border-gray-900"
-                }`}
-                placeholder="Your name"
-              />
+          <form onSubmit={handleSubmit}>
+            <h2 className={`text-2xl font-semibold mb-2 text-center ${isDark ? "text-white" : isClean ? "text-[#1a1c1c]" : isTech ? "text-[#d4e4fa]" : ""}`}>
+              Where should we reach you?
+            </h2>
+            <p className={`text-center mb-6 ${isDark ? "text-[#737373]" : isClean ? "text-[#5f5e5e]" : isTech ? "text-[#bec6e0]" : "text-gray-600"}`}>
+              We&apos;ll reach out to schedule your free week.
+            </p>
+            <div className="space-y-4">
+              <div>
+                <label htmlFor={`${formId}-name`} className={`block text-sm font-medium mb-1 ${isDark ? "text-[#737373] uppercase tracking-wider" : isClean ? "text-[#5f5e5e] uppercase tracking-wider" : isTech ? "text-[#94a3b8] uppercase tracking-wider font-mono text-xs" : "text-gray-700"}`}>
+                  Name
+                </label>
+                <input
+                  type="text"
+                  id={`${formId}-name`}
+                  name="name"
+                  required
+                  tabIndex={isContactStep ? 0 : -1}
+                  value={answers.name}
+                  onChange={(e) => handleContactChange("name", e.target.value)}
+                  className={`w-full p-3 border transition-colors focus:outline-none ${
+                    isDark
+                      ? "bg-[#0d0d0d] border-[#333333] focus:border-[#ff2e2e] text-white placeholder-[#737373]"
+                      : isClean
+                      ? "bg-white border-[#1a1c1c]/20 border-b-2 border-t-0 border-l-0 border-r-0 focus:border-[#bb0012] text-[#1a1c1c] placeholder-[#5f5e5e]"
+                      : isTech
+                      ? "bg-[#051424] border-[#334155] focus:border-[#e11d48] text-[#d4e4fa] placeholder-[#94a3b8]"
+                      : "border-2 border-gray-200 rounded-lg focus:border-gray-900"
+                  }`}
+                  placeholder="Your name"
+                />
+              </div>
+              <div>
+                <label htmlFor={`${formId}-phone`} className={`block text-sm font-medium mb-1 ${isDark ? "text-[#737373] uppercase tracking-wider" : isClean ? "text-[#5f5e5e] uppercase tracking-wider" : isTech ? "text-[#94a3b8] uppercase tracking-wider font-mono text-xs" : "text-gray-700"}`}>
+                  Phone
+                </label>
+                <input
+                  type="tel"
+                  id={`${formId}-phone`}
+                  name="phone"
+                  required
+                  tabIndex={isContactStep ? 0 : -1}
+                  value={answers.phone}
+                  onChange={(e) => handleContactChange("phone", e.target.value)}
+                  className={`w-full p-3 border transition-colors focus:outline-none ${
+                    isDark
+                      ? "bg-[#0d0d0d] border-[#333333] focus:border-[#ff2e2e] text-white placeholder-[#737373]"
+                      : isClean
+                      ? "bg-white border-[#1a1c1c]/20 border-b-2 border-t-0 border-l-0 border-r-0 focus:border-[#bb0012] text-[#1a1c1c] placeholder-[#5f5e5e]"
+                      : isTech
+                      ? "bg-[#051424] border-[#334155] focus:border-[#e11d48] text-[#d4e4fa] placeholder-[#94a3b8]"
+                      : "border-2 border-gray-200 rounded-lg focus:border-gray-900"
+                  }`}
+                  placeholder="(555) 123-4567"
+                />
+              </div>
+              <div>
+                <label htmlFor={`${formId}-email`} className={`block text-sm font-medium mb-1 ${isDark ? "text-[#737373] uppercase tracking-wider" : isClean ? "text-[#5f5e5e] uppercase tracking-wider" : isTech ? "text-[#94a3b8] uppercase tracking-wider font-mono text-xs" : "text-gray-700"}`}>
+                  Email
+                </label>
+                <input
+                  type="email"
+                  id={`${formId}-email`}
+                  name="email"
+                  required
+                  tabIndex={isContactStep ? 0 : -1}
+                  value={answers.email}
+                  onChange={(e) => handleContactChange("email", e.target.value)}
+                  className={`w-full p-3 border transition-colors focus:outline-none ${
+                    isDark
+                      ? "bg-[#0d0d0d] border-[#333333] focus:border-[#ff2e2e] text-white placeholder-[#737373]"
+                      : isClean
+                      ? "bg-white border-[#1a1c1c]/20 border-b-2 border-t-0 border-l-0 border-r-0 focus:border-[#bb0012] text-[#1a1c1c] placeholder-[#5f5e5e]"
+                      : isTech
+                      ? "bg-[#051424] border-[#334155] focus:border-[#e11d48] text-[#d4e4fa] placeholder-[#94a3b8]"
+                      : "border-2 border-gray-200 rounded-lg focus:border-gray-900"
+                  }`}
+                  placeholder="you@example.com"
+                />
+              </div>
             </div>
-            <div>
-              <label htmlFor="phone" className={`block text-sm font-medium mb-1 ${isDark ? "text-[#737373] uppercase tracking-wider" : isClean ? "text-[#5f5e5e] uppercase tracking-wider" : isTech ? "text-[#94a3b8] uppercase tracking-wider font-mono text-xs" : "text-gray-700"}`}>
-                Phone
-              </label>
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                required
-                value={answers.phone}
-                onChange={(e) => handleContactChange("phone", e.target.value)}
-                className={`w-full p-3 border transition-colors focus:outline-none ${
-                  isDark
-                    ? "bg-[#0d0d0d] border-[#333333] focus:border-[#ff2e2e] text-white placeholder-[#737373]"
-                    : isClean
-                    ? "bg-white border-[#1a1c1c]/20 border-b-2 border-t-0 border-l-0 border-r-0 focus:border-[#bb0012] text-[#1a1c1c] placeholder-[#5f5e5e]"
-                    : isTech
-                    ? "bg-[#051424] border-[#334155] focus:border-[#e11d48] text-[#d4e4fa] placeholder-[#94a3b8]"
-                    : "border-2 border-gray-200 rounded-lg focus:border-gray-900"
-                }`}
-                placeholder="(555) 123-4567"
-              />
-            </div>
-            <div>
-              <label htmlFor="email" className={`block text-sm font-medium mb-1 ${isDark ? "text-[#737373] uppercase tracking-wider" : isClean ? "text-[#5f5e5e] uppercase tracking-wider" : isTech ? "text-[#94a3b8] uppercase tracking-wider font-mono text-xs" : "text-gray-700"}`}>
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                required
-                value={answers.email}
-                onChange={(e) => handleContactChange("email", e.target.value)}
-                className={`w-full p-3 border transition-colors focus:outline-none ${
-                  isDark
-                    ? "bg-[#0d0d0d] border-[#333333] focus:border-[#ff2e2e] text-white placeholder-[#737373]"
-                    : isClean
-                    ? "bg-white border-[#1a1c1c]/20 border-b-2 border-t-0 border-l-0 border-r-0 focus:border-[#bb0012] text-[#1a1c1c] placeholder-[#5f5e5e]"
-                    : isTech
-                    ? "bg-[#051424] border-[#334155] focus:border-[#e11d48] text-[#d4e4fa] placeholder-[#94a3b8]"
-                    : "border-2 border-gray-200 rounded-lg focus:border-gray-900"
-                }`}
-                placeholder="you@example.com"
-              />
-            </div>
-          </div>
 
-          {error && (
-            <p className={`mt-4 text-sm ${isDark ? "text-[#ff2e2e]" : isClean ? "text-[#bb0012]" : isTech ? "text-[#ffb3b6]" : "text-red-600"}`}>{error}</p>
-          )}
+            {error && (
+              <p className={`mt-4 text-sm ${isDark ? "text-[#ff2e2e]" : isClean ? "text-[#bb0012]" : isTech ? "text-[#ffb3b6]" : "text-red-600"}`}>{error}</p>
+            )}
 
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className={`w-full mt-6 p-4 font-medium transition-all cursor-pointer disabled:cursor-not-allowed ${
-              isDark
-                ? "bg-[#ff2e2e] text-white hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50"
-                : isClean
-                ? "bg-[#bb0012] text-white hover:opacity-90 active:scale-[0.98] disabled:opacity-50"
-                : isTech
-                ? "bg-[#e11d48] text-white hover:opacity-90 active:scale-[0.98] disabled:opacity-50 uppercase tracking-wider"
-                : "bg-gray-900 text-white rounded-lg hover:bg-gray-800 disabled:bg-gray-400"
-            }`}
-          >
-            {isSubmitting ? "Submitting..." : "Get My Free Week"}
-          </button>
-
-          <p className={`mt-4 text-xs text-center ${isDark ? "text-[#737373]" : isClean ? "text-[#5f5e5e]" : isTech ? "text-[#94a3b8]" : "text-gray-500"}`}>
-            By submitting, you agree to our{" "}
-            <a
-              href="/privacy"
-              target="_blank"
-              className={`underline hover:no-underline ${isDark ? "text-[#ff2e2e]" : isClean ? "text-[#bb0012]" : isTech ? "text-[#ffb3b6]" : "text-gray-700"}`}
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              tabIndex={isContactStep ? 0 : -1}
+              className={`w-full mt-6 p-4 font-medium transition-all cursor-pointer disabled:cursor-not-allowed ${
+                isDark
+                  ? "bg-[#ff2e2e] text-white hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50"
+                  : isClean
+                  ? "bg-[#bb0012] text-white hover:opacity-90 active:scale-[0.98] disabled:opacity-50"
+                  : isTech
+                  ? "bg-[#e11d48] text-white hover:opacity-90 active:scale-[0.98] disabled:opacity-50 uppercase tracking-wider"
+                  : "bg-gray-900 text-white rounded-lg hover:bg-gray-800 disabled:bg-gray-400"
+              }`}
             >
-              Privacy Policy
-            </a>
-          </p>
-        </form>
+              {isSubmitting ? "Submitting..." : "Get My Free Week"}
+            </button>
+
+            <p className={`mt-4 text-xs text-center ${isDark ? "text-[#737373]" : isClean ? "text-[#5f5e5e]" : isTech ? "text-[#94a3b8]" : "text-gray-500"}`}>
+              By submitting, you agree to our{" "}
+              <a
+                href="/privacy"
+                target="_blank"
+                tabIndex={isContactStep ? 0 : -1}
+                className={`underline hover:no-underline ${isDark ? "text-[#ff2e2e]" : isClean ? "text-[#bb0012]" : isTech ? "text-[#ffb3b6]" : "text-gray-700"}`}
+              >
+                Privacy Policy
+              </a>
+            </p>
+          </form>
       )}
 
       {/* Back Button */}

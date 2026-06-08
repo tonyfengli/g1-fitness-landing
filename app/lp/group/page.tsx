@@ -24,7 +24,7 @@ export default function GroupClassesLandingPage() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative min-h-[700px] flex flex-col justify-start pt-8 md:pt-12 px-4 md:px-8 overflow-hidden">
+      <section className="relative pt-16 md:pt-24 pb-8 md:pb-12 flex flex-col justify-center items-center px-4 md:px-8 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
             src="/hero.jpg"
@@ -33,19 +33,25 @@ export default function GroupClassesLandingPage() {
             className="object-cover grayscale"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/30" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70" />
         </div>
-        <div className="relative z-10 max-w-3xl">
+        <div className="relative z-10 max-w-3xl text-center">
           <p className="text-xs uppercase tracking-[0.3em] text-white/80 mb-4">
             West Anaheim • Buena Park • Cypress
           </p>
-          <h2 className="font-bebas text-5xl md:text-7xl text-white mb-6 uppercase leading-none">
+          <h2 className="font-bebas text-5xl md:text-7xl text-white mb-4 uppercase leading-none">
             Safe movement. Relentless community.
           </h2>
-          <p className="text-lg text-white font-medium mb-8 max-w-xl">
+          <p className="text-lg text-white font-medium max-w-xl mx-auto">
             A local gym for busy adults who need a routine that sticks and a community that keeps you going.
           </p>
-          <div className="bg-white p-6 md:p-8 border border-[#1a1c1c]/10 max-w-md mt-8">
+        </div>
+      </section>
+
+      {/* Form Section - immediately below hero */}
+      <section id="form" className="pt-8 pb-12 md:pt-12 md:pb-16 px-4 md:px-8 bg-[#f3f3f4] scroll-mt-16">
+        <div className="max-w-xl mx-auto">
+          <div className="bg-white p-6 md:p-8 border border-[#1a1c1c]/10">
             <Suspense fallback={<div className="text-center py-8">Loading...</div>}>
               <LeadForm formId="hero-form" variant="clean" />
             </Suspense>
@@ -272,7 +278,7 @@ export default function GroupClassesLandingPage() {
 
       {/* Bottom Form */}
       <section id="form" className="py-20 md:py-32 px-4 md:px-8 scroll-mt-16 bg-white">
-        <div className="max-w-lg mx-auto">
+        <div className="max-w-xl mx-auto">
           <h2 className="font-bebas text-4xl md:text-5xl uppercase mb-8 text-center text-[#1a1c1c]">
             Start Your <span className="text-[#bb0012]">Free Week</span>
           </h2>
