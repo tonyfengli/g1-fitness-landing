@@ -14,8 +14,53 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "G1 Fitness",
-  description: "Join G1 Fitness group classes",
+  title: {
+    default: "G1 Fitness | West Anaheim Gym",
+    template: "%s | G1 Fitness",
+  },
+  description:
+    "Safe movement. Relentless community. Join G1 Fitness in West Anaheim for group classes and semi-private training. First week free.",
+  keywords: [
+    "gym anaheim",
+    "fitness classes anaheim",
+    "personal trainer anaheim",
+    "group fitness",
+    "hiit classes",
+    "semi-private training",
+    "west anaheim gym",
+  ],
+  authors: [{ name: "G1 Fitness" }],
+  creator: "G1 Fitness",
+  publisher: "G1 Fitness",
+  metadataBase: new URL("https://g1fitnessoc.com"),
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://g1fitnessoc.com",
+    siteName: "G1 Fitness",
+    title: "G1 Fitness | West Anaheim Gym",
+    description:
+      "Safe movement. Relentless community. Join G1 Fitness in West Anaheim for group classes and semi-private training.",
+    images: [
+      {
+        url: "/logo.png",
+        width: 1024,
+        height: 1024,
+        alt: "G1 Fitness Logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "G1 Fitness | West Anaheim Gym",
+    description:
+      "Safe movement. Relentless community. Join G1 Fitness for group classes and semi-private training.",
+    images: ["/logo.png"],
+  },
+  icons: {
+    icon: "/logo.png",
+    apple: "/logo.png",
+  },
   robots: {
     index: false,
     follow: false,

@@ -12,7 +12,7 @@ export default function SemiPrivateLandingPage() {
     <main className="w-full overflow-x-hidden">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-[#f9f9f9]/90 backdrop-blur-md border-b border-[#1a1c1c]/10 flex justify-between items-center h-16 px-4 md:px-8">
-        <h1 className="font-bebas text-2xl tracking-tight text-[#bb0012]">G1 FITNESS</h1>
+        <Image src="/logo.png" alt="G1 Fitness" width={120} height={40} className="h-10 w-auto" />
         <div className="hidden md:flex gap-8 text-xs uppercase tracking-widest text-[#5f5e5e]">
           <a className="text-[#1a1c1c] hover:text-[#bb0012] transition-colors" href="#">Home</a>
           <a className="hover:text-[#bb0012] transition-colors" href="#">Programs</a>
@@ -40,9 +40,9 @@ export default function SemiPrivateLandingPage() {
             West Anaheim • Buena Park • Cypress
           </p>
           <h2 className="font-bebas text-5xl md:text-7xl text-white mb-4 uppercase leading-none">
-            Safe movement. Relentless community.
+            The best gym community in OC.
           </h2>
-          <p className="text-lg text-white font-medium max-w-xl mx-auto">
+          <p className="text-xl md:text-2xl text-white font-semibold max-w-2xl mx-auto">
             A local gym for busy adults who need a routine that sticks and a community that keeps you going.
           </p>
         </div>
