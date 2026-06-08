@@ -10,7 +10,7 @@ export default function PrivacyPage() {
     <main className="max-w-3xl mx-auto px-4 py-16">
       <h1 className="text-3xl font-bold mb-8">Privacy Policy</h1>
 
-      <p className="mb-4 text-gray-600">Last updated: [DATE]</p>
+      <p className="mb-4 text-gray-600">Last updated: June 2026</p>
 
       <section className="mb-8">
         <h2 className="text-xl font-semibold mb-4">Information We Collect</h2>
@@ -51,7 +51,16 @@ export default function PrivacyPage() {
       <section className="mb-8">
         <h2 className="text-xl font-semibold mb-4">Contact Us</h2>
         <p>
-          For privacy questions, contact us at: [EMAIL]
+          For privacy questions, contact us at:{" "}
+          <a href="mailto:info@g1fitnessoc.com" className="text-blue-600 hover:underline">
+            info@g1fitnessoc.com
+          </a>
+        </p>
+        <p className="mt-2">
+          G1 Fitness<br />
+          3111 West Lincoln Ave<br />
+          Anaheim, CA 92801<br />
+          (714) 388-5115
         </p>
       </section>
     </main>

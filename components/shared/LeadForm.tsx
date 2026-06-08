@@ -309,6 +309,17 @@ export function LeadForm({ formId = "lead-form", variant = "light" }: LeadFormPr
           >
             {isSubmitting ? "Submitting..." : "Get My Free Week"}
           </button>
+
+          <p className={`mt-4 text-xs text-center ${isDark ? "text-[#737373]" : isClean ? "text-[#5f5e5e]" : isTech ? "text-[#94a3b8]" : "text-gray-500"}`}>
+            By submitting, you agree to our{" "}
+            <a
+              href="/privacy"
+              target="_blank"
+              className={`underline hover:no-underline ${isDark ? "text-[#ff2e2e]" : isClean ? "text-[#bb0012]" : isTech ? "text-[#ffb3b6]" : "text-gray-700"}`}
+            >
+              Privacy Policy
+            </a>
+          </p>
         </form>
       )}
 
