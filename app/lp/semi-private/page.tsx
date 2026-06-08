@@ -2,7 +2,12 @@ import Image from "next/image";
 import { Suspense } from "react";
 import { LeadForm } from "@/components/shared/LeadForm";
 
-export default function CleanLandingPage() {
+// Ad Group: Semi-Private / Personal Training
+// Focus: Kyle's safe movement expertise, DPT credibility
+// Secondary: Community as supplement
+// Keywords: "personal trainer anaheim", "semi-private training", "small group training OC"
+
+export default function SemiPrivateLandingPage() {
   return (
     <main className="w-full overflow-x-hidden">
       {/* Header */}

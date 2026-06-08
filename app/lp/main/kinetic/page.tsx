@@ -35,10 +35,10 @@ export default function KineticLandingPage() {
             West Anaheim • Buena Park • Cypress
           </p>
           <h2 className="font-bebas text-5xl md:text-7xl text-white mb-6 uppercase leading-none">
-            Join the fastest-growing local gym for busy adults.
+            Safe movement. Relentless community.
           </h2>
-          <p className="text-lg text-white mb-8 max-w-xl">
-            You need a routine that lasts and a community that will keep you going.
+          <p className="text-lg text-white font-medium mb-8 max-w-xl">
+            A local gym for busy adults who need a routine that sticks and a community that keeps you going.
           </p>
           <div className="bg-[#1a1a1a] p-6 md:p-8 border border-[#262626] max-w-md mt-8">
             <Suspense fallback={<div className="text-center py-8">Loading...</div>}>

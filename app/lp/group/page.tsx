@@ -2,7 +2,12 @@ import Image from "next/image";
 import { Suspense } from "react";
 import { LeadForm } from "@/components/shared/LeadForm";
 
-export default function CleanLandingPage() {
+// Ad Group: Group Classes / Community
+// Focus: Community energy, group accountability
+// Secondary: Safe movement, PT credibility (Kyle as backup trust signal)
+// Keywords: "group fitness classes anaheim", "hiit classes near me", "community gym OC"
+
+export default function GroupClassesLandingPage() {
   return (
     <main className="w-full overflow-x-hidden">
       {/* Header */}

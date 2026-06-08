@@ -37,10 +37,10 @@ export default function TechLandingPage() {
             West Anaheim • Buena Park • Cypress
           </div>
           <h2 className="font-bebas text-4xl md:text-6xl text-white mb-6 uppercase leading-none">
-            Join the fastest-growing <span className="text-[#ffb3b6]">local gym</span> for busy adults.
+            Safe movement. Relentless community.
           </h2>
-          <p className="text-lg text-white/90 mb-8 max-w-xl">
-            You need a routine that lasts and a community that will keep you going.
+          <p className="text-lg text-white font-medium mb-8 max-w-xl">
+            A local gym for busy adults who need a routine that sticks and a community that keeps you going.
           </p>
           <div className="bg-[#0d1c2d] p-6 md:p-8 border border-[#334155] max-w-md">
             <Suspense fallback={<div className="text-center py-8">Loading...</div>}>
