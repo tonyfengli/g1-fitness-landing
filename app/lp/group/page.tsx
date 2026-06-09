@@ -204,21 +204,21 @@ export default function GroupClassesLandingPage() {
           <div className="grid md:grid-cols-3 gap-12">
             <div className="relative text-center">
               <div className="font-bebas text-[120px] text-[#e2e2e2] absolute -top-8 left-1/2 -translate-x-1/2 z-0 leading-none">01</div>
-              <div className="relative z-10 pt-16">
+              <div className="relative z-10 pt-20">
                 <h5 className="font-bebas text-xl uppercase mb-4 text-[#1a1c1c]">Answer Questions</h5>
                 <p className="text-[#5f5e5e]">Tell us about your goals and where you're at. We listen before we lift.</p>
               </div>
             </div>
             <div className="relative text-center">
               <div className="font-bebas text-[120px] text-[#e2e2e2] absolute -top-8 left-1/2 -translate-x-1/2 z-0 leading-none">02</div>
-              <div className="relative z-10 pt-16">
+              <div className="relative z-10 pt-20">
                 <h5 className="font-bebas text-xl uppercase mb-4 text-[#1a1c1c]">We'll Reach Out</h5>
                 <p className="text-[#5f5e5e]">A human coach will contact you to find a time that works.</p>
               </div>
             </div>
             <div className="relative text-center">
               <div className="font-bebas text-[120px] text-[#e2e2e2] absolute -top-8 left-1/2 -translate-x-1/2 z-0 leading-none">03</div>
-              <div className="relative z-10 pt-16">
+              <div className="relative z-10 pt-20">
                 <h5 className="font-bebas text-xl uppercase mb-4 text-[#1a1c1c]">Try A Free Week</h5>
                 <p className="text-[#5f5e5e]">Experience real training. See the community. Decide if it's your new home.</p>
               </div>
