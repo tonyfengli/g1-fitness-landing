@@ -151,43 +151,48 @@ export function LeadForm({ formId = "lead-form", variant = "light" }: LeadFormPr
         {currentStep + 1} of {TOTAL_STEPS}
       </p>
 
-      {/* Grid stack container - question steps only (similar heights) */}
-      {!isContactStep && (
-        <div className="grid items-start" style={{ gridTemplateColumns: "1fr", gridTemplateRows: "auto" }}>
-          {STEPS.map((step, index) => (
-            <div
-              key={step.id}
-              style={{ ...getStepStyles(currentStep === index), gridArea: "1 / 1" }}
-            >
-              <h2 className={`text-lg font-semibold mb-3 text-center ${isDark ? "text-white" : isClean ? "text-[#1a1c1c]" : isTech ? "text-[#d4e4fa]" : ""}`}>
-                {step.question}
-              </h2>
+      {/* Step 1 - Yes/No - rendered separately (no dead space) */}
+      {currentStep === 0 && (
+        <div>
+          <h2 className={`text-lg font-semibold mb-3 text-center ${isDark ? "text-white" : isClean ? "text-[#1a1c1c]" : isTech ? "text-[#d4e4fa]" : ""}`}>
+            {STEPS[0].question}
+          </h2>
+          <div className="flex gap-4 justify-center">
+            {STEPS[0].options.map((option) => (
+              <button
+                key={option.value}
+                type="button"
+                onClick={() => handleOptionSelect(STEPS[0].id, option.value)}
+                className={`px-10 py-4 font-bold text-lg cursor-pointer transition-all ${
+                  isDark
+                    ? "bg-[#ff2e2e] text-white hover:scale-105 active:scale-95"
+                    : isClean
+                    ? "bg-[#bb0012] text-white hover:opacity-90 active:scale-95"
+                    : isTech
+                    ? "bg-[#e11d48] text-white hover:opacity-90 active:scale-95 uppercase tracking-wider"
+                    : "bg-gray-900 text-white rounded-lg hover:bg-gray-800"
+                }`}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
-              {/* First step - bold CTA buttons */}
-              {index === 0 ? (
-                <div className="flex gap-4 justify-center">
-                  {step.options.map((option) => (
-                    <button
-                      key={option.value}
-                      type="button"
-                      onClick={() => handleOptionSelect(step.id, option.value)}
-                      tabIndex={currentStep === index ? 0 : -1}
-                      className={`px-10 py-4 font-bold text-lg cursor-pointer transition-all ${
-                        isDark
-                          ? "bg-[#ff2e2e] text-white hover:scale-105 active:scale-95"
-                          : isClean
-                          ? "bg-[#bb0012] text-white hover:opacity-90 active:scale-95"
-                          : isTech
-                          ? "bg-[#e11d48] text-white hover:opacity-90 active:scale-95 uppercase tracking-wider"
-                          : "bg-gray-900 text-white rounded-lg hover:bg-gray-800"
-                      }`}
-                    >
-                      {option.label}
-                    </button>
-                  ))}
-                </div>
-              ) : (
-                /* Grid of option buttons for other steps */
+      {/* Grid stack container - Steps 2 & 3 only (similar heights) */}
+      {currentStep >= 1 && !isContactStep && (
+        <div className="grid items-start" style={{ gridTemplateColumns: "1fr", gridTemplateRows: "auto" }}>
+          {STEPS.slice(1).map((step, idx) => {
+            const index = idx + 1; // actual step index
+            return (
+              <div
+                key={step.id}
+                style={{ ...getStepStyles(currentStep === index), gridArea: "1 / 1" }}
+              >
+                <h2 className={`text-lg font-semibold mb-3 text-center ${isDark ? "text-white" : isClean ? "text-[#1a1c1c]" : isTech ? "text-[#d4e4fa]" : ""}`}>
+                  {step.question}
+                </h2>
                 <div className="grid grid-cols-2 gap-4">
                   {step.options.map((option) => (
                     <button
@@ -209,9 +214,9 @@ export function LeadForm({ formId = "lead-form", variant = "light" }: LeadFormPr
                     </button>
                   ))}
                 </div>
-              )}
-            </div>
-          ))}
+              </div>
+            );
+          })}
         </div>
       )}
 
