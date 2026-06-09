@@ -18,7 +18,7 @@ export default function GroupClassesLandingPage() {
           <a className="hover:text-[#bb0012] transition-colors" href="#">Programs</a>
           <a className="hover:text-[#bb0012] transition-colors" href="#">Community</a>
         </div>
-        <a href="#form" className="text-[#bb0012] text-sm font-semibold uppercase tracking-wide hover:opacity-70 transition-opacity">
+        <a href="#top-form" className="text-[#bb0012] text-sm font-semibold uppercase tracking-wide hover:opacity-70 transition-opacity">
           Join
         </a>
       </header>
@@ -49,7 +49,7 @@ export default function GroupClassesLandingPage() {
       </section>
 
       {/* Form Section - immediately below hero */}
-      <section id="form" className="pt-8 pb-12 md:pt-12 md:pb-16 px-4 md:px-8 bg-[#f3f3f4] scroll-mt-16">
+      <section id="top-form" className="pt-8 pb-6 md:pt-12 md:pb-8 px-4 md:px-8 bg-[#f3f3f4] scroll-mt-16">
         <div className="max-w-xl mx-auto">
           <div className="bg-white p-6 md:p-8 border border-[#1a1c1c]/10">
             <Suspense fallback={<div className="text-center py-8">Loading...</div>}>
@@ -60,7 +60,7 @@ export default function GroupClassesLandingPage() {
       </section>
 
       {/* Coach Kyle Section */}
-      <section className="py-20 md:py-32 px-4 md:px-8 bg-white">
+      <section className="pt-8 pb-20 md:pt-12 md:pb-32 px-4 md:px-8 bg-white">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 md:gap-16 items-center">
           <div className="relative ml-4 md:ml-0">
             <div className="absolute -top-4 -left-4 w-full h-full border-2 border-[#bb0012] z-0" />

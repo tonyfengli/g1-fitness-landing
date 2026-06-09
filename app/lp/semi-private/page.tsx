@@ -18,7 +18,7 @@ export default function SemiPrivateLandingPage() {
           <a className="hover:text-[#bb0012] transition-colors" href="#">Programs</a>
           <a className="hover:text-[#bb0012] transition-colors" href="#">Community</a>
         </div>
-        <a href="#form" className="text-[#bb0012] text-sm font-semibold uppercase tracking-wide hover:opacity-70 transition-opacity">
+        <a href="#top-form" className="text-[#bb0012] text-sm font-semibold uppercase tracking-wide hover:opacity-70 transition-opacity">
           Join
         </a>
       </header>
@@ -43,13 +43,13 @@ export default function SemiPrivateLandingPage() {
             The best gym community in OC.
           </h2>
           <p className="text-xl md:text-2xl text-white font-semibold max-w-2xl mx-auto">
-            A local gym for busy adults who need a routine that sticks and a community that keeps you going.
+            A local gym for busy adults who want to show up, get coached, and feel like they belong.
           </p>
         </div>
       </section>
 
       {/* Form Section - immediately below hero */}
-      <section id="form" className="pt-8 pb-12 md:pt-12 md:pb-16 px-4 md:px-8 bg-[#f3f3f4] scroll-mt-16">
+      <section id="top-form" className="pt-8 pb-6 md:pt-12 md:pb-8 px-4 md:px-8 bg-[#f3f3f4] scroll-mt-16">
         <div className="max-w-xl mx-auto">
           <div className="bg-white p-6 md:p-8 border border-[#1a1c1c]/10">
             <Suspense fallback={<div className="text-center py-8">Loading...</div>}>
@@ -60,7 +60,7 @@ export default function SemiPrivateLandingPage() {
       </section>
 
       {/* Coach Kyle Section */}
-      <section className="py-20 md:py-32 px-4 md:px-8 bg-white">
+      <section className="pt-8 pb-20 md:pt-12 md:pb-32 px-4 md:px-8 bg-white">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 md:gap-16 items-center">
           <div className="relative ml-4 md:ml-0">
             <div className="absolute -top-4 -left-4 w-full h-full border-2 border-[#bb0012] z-0" />
@@ -140,39 +140,67 @@ export default function SemiPrivateLandingPage() {
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6">
-            {/* Semi-Private */}
-            <div className="bg-white border border-[#1a1c1c]/10 p-8 hover:border-[#bb0012] transition-all duration-300">
-              <div className="flex justify-between items-start mb-8">
-                <span className="text-[#bb0012] text-4xl">👥</span>
-                <span className="text-xs uppercase tracking-widest text-[#5f5e5e]">4–6 Clients</span>
+          {/* Semi-Private - Primary */}
+          <div className="bg-white border-2 border-[#bb0012] p-8 mb-6">
+            <h4 className="font-bebas text-3xl uppercase mb-4 text-[#1a1c1c]">Semi-Private Training</h4>
+            <p className="text-[#5f5e5e] mb-6">
+              Personal training attention without the personal training price. With only 4–6 clients per session, your coach builds every workout around your goals, your body, and your pace—correcting your form in real time and adapting as you progress.
+            </p>
+            <div className="grid md:grid-cols-3 gap-6 mb-6">
+              <div>
+                <h5 className="font-bebas text-lg uppercase text-[#bb0012] mb-1">Personalized Programming</h5>
+                <p className="text-[#5f5e5e] text-sm">Workouts adjusted to your ability, so you're always challenged but never left behind.</p>
               </div>
-              <h4 className="font-bebas text-2xl uppercase mb-4 text-[#1a1c1c]">Semi-Private Sessions</h4>
+              <div>
+                <h5 className="font-bebas text-lg uppercase text-[#bb0012] mb-1">Real-Time Coaching</h5>
+                <p className="text-[#5f5e5e] text-sm">Form correction every rep. No guesswork, no injuries.</p>
+              </div>
+              <div>
+                <h5 className="font-bebas text-lg uppercase text-[#bb0012] mb-1">Progress Tracking</h5>
+                <p className="text-[#5f5e5e] text-sm">We track your gains so you see measurable results.</p>
+              </div>
+            </div>
+            <ul className="flex flex-wrap gap-4 text-sm text-[#1a1c1c]">
+              <li className="flex items-center gap-2">
+                <span className="text-[#bb0012]">✓</span> Coach Who Knows Your Name
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-[#bb0012]">✓</span> Adapts To Your Level
+              </li>
+            </ul>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* Personal Training - Secondary */}
+            <div className="bg-white border border-[#1a1c1c]/10 p-8 hover:border-[#bb0012] transition-all duration-300">
+              <div className="mb-8">
+                <span className="text-[#bb0012] text-4xl">🎯</span>
+              </div>
+              <h4 className="font-bebas text-2xl uppercase mb-4 text-[#1a1c1c]">Personal Training</h4>
               <p className="text-[#5f5e5e] mb-8">
-                Personalized coaching in small groups. Every workout is built around your goals, your body, and your pace—adapting as you progress.
+                One-on-one sessions with your coach. Full attention, fully customized programming, maximum results.
               </p>
               <ul className="space-y-3 text-sm text-[#1a1c1c]">
                 <li className="flex items-center gap-2">
-                  <span className="text-[#bb0012]">✓</span> Personalized Coaching
+                  <span className="text-[#bb0012]">✓</span> 1-on-1 Attention
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-[#bb0012]">✓</span> Form Correction
+                  <span className="text-[#bb0012]">✓</span> Custom Programming
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-[#bb0012]">✓</span> Progress Tracking
+                  <span className="text-[#bb0012]">✓</span> Flexible Scheduling
                 </li>
               </ul>
             </div>
 
-            {/* HIIT */}
+            {/* Group Classes - Secondary */}
             <div className="bg-white border border-[#1a1c1c]/10 p-8 hover:border-[#bb0012] transition-all duration-300">
-              <div className="flex justify-between items-start mb-8">
+              <div className="mb-8">
                 <span className="text-[#bb0012] text-4xl">⚡</span>
-                <span className="text-xs uppercase tracking-widest text-[#5f5e5e]">45 Minutes</span>
               </div>
-              <h4 className="font-bebas text-2xl uppercase mb-4 text-[#1a1c1c]">HIIT Classes</h4>
+              <h4 className="font-bebas text-2xl uppercase mb-4 text-[#1a1c1c]">Group Classes</h4>
               <p className="text-[#5f5e5e] mb-8">
-                High-energy group workouts alongside people who want to see you win. Coached intervals designed to keep your heart rate elevated.
+                High-energy group workouts alongside people who want to see you win. All the community energy with coached guidance every session.
               </p>
               <ul className="space-y-3 text-sm text-[#1a1c1c]">
                 <li className="flex items-center gap-2">
