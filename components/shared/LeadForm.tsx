@@ -3,6 +3,13 @@
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
+// Declare gtag for TypeScript
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+  }
+}
+
 const STEPS = [
   {
     id: "has_routine",
@@ -113,6 +120,13 @@ export function LeadForm({ formId = "lead-form", variant = "light" }: LeadFormPr
 
       if (!response.ok) {
         throw new Error("Submission failed");
+      }
+
+      // Fire Google Ads conversion
+      if (typeof window !== "undefined" && window.gtag) {
+        window.gtag("event", "conversion", {
+          send_to: "AW-18204362022/cr6wCP3s87scEKaKwuhD",
+        });
       }
 
       router.push("/thank-you");
