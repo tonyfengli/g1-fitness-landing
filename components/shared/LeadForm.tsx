@@ -132,8 +132,9 @@ export function LeadForm({ formId = "lead-form", variant = "light" }: LeadFormPr
       }
 
       router.push("/thank-you");
-    } catch {
-      setError("Something went wrong. Please try again.");
+    } catch (err) {
+      console.error("Form submission error:", err);
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
       setIsSubmitting(false);
     }
   };
