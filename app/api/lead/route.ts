@@ -27,6 +27,9 @@ async function appendToGoogleSheet(data: LeadData & { timestamp: string }) {
     hasClientEmail: !!clientEmail,
     hasPrivateKey: !!privateKey,
     privateKeyLength: privateKey?.length || 0,
+    privateKeyStart: privateKey?.substring(0, 60),
+    hasLiteralBackslashN: privateKey?.includes("\\n"),
+    hasActualNewline: privateKey?.includes("\n"),
   });
 
   if (!spreadsheetId || !clientEmail || !privateKey) {
@@ -34,11 +37,25 @@ async function appendToGoogleSheet(data: LeadData & { timestamp: string }) {
     return;
   }
 
+  // Handle different newline formats from env vars
+  // Replace literal \n (backslash + n) with actual newlines
+  const formattedKey = privateKey
+    .split("\\n").join("\n")
+    .split("\\r").join("");
+
+  console.log("Formatted key check:", {
+    formattedKeyLength: formattedKey.length,
+    startsCorrectly: formattedKey.startsWith("-----BEGIN"),
+    endsCorrectly: formattedKey.includes("-----END PRIVATE KEY-----"),
+    hasNewlines: formattedKey.includes("\n"),
+    newlineCount: (formattedKey.match(/\n/g) || []).length,
+  });
+
   try {
     const auth = new google.auth.GoogleAuth({
       credentials: {
         client_email: clientEmail,
-        private_key: privateKey.replace(/\\n/g, "\n"),
+        private_key: formattedKey,
       },
       scopes: ["https://www.googleapis.com/auth/spreadsheets"],
     });
