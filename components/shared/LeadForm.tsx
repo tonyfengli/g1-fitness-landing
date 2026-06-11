@@ -119,7 +119,9 @@ export function LeadForm({ formId = "lead-form", variant = "light" }: LeadFormPr
       });
 
       if (!response.ok) {
-        throw new Error("Submission failed");
+        const errorData = await response.json();
+        console.error("Lead submission failed:", errorData);
+        throw new Error(errorData.details || "Submission failed");
       }
 
       // Fire Google Ads conversion
