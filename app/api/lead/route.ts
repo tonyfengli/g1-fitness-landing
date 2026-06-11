@@ -38,16 +38,28 @@ async function appendToGoogleSheet(data: LeadData & { timestamp: string }) {
   }
 
   // Handle different newline formats from env vars
-  // Replace literal \n (backslash + n) with actual newlines
-  const formattedKey = privateKey
-    .split("\\n").join("\n")
-    .split("\\r").join("");
+  // Try multiple approaches to fix the key format
+  let formattedKey = privateKey;
+
+  // Method 1: Replace literal backslash-n with newlines
+  if (formattedKey.includes("\\n")) {
+    formattedKey = formattedKey.split("\\n").join("\n");
+  }
+
+  // Method 2: If key is JSON-escaped (starts with extra chars), try parsing
+  if (formattedKey.startsWith('"')) {
+    try {
+      formattedKey = JSON.parse(formattedKey);
+    } catch {
+      // Not valid JSON, continue with current value
+    }
+  }
 
   console.log("Formatted key check:", {
-    formattedKeyLength: formattedKey.length,
+    originalLength: privateKey.length,
+    formattedLength: formattedKey.length,
     startsCorrectly: formattedKey.startsWith("-----BEGIN"),
-    endsCorrectly: formattedKey.includes("-----END PRIVATE KEY-----"),
-    hasNewlines: formattedKey.includes("\n"),
+    endsCorrectly: formattedKey.trimEnd().endsWith("-----END PRIVATE KEY-----"),
     newlineCount: (formattedKey.match(/\n/g) || []).length,
   });
 
