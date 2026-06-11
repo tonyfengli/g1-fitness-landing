@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 // Declare gtag for TypeScript
@@ -9,6 +9,10 @@ declare global {
     gtag?: (...args: unknown[]) => void;
   }
 }
+
+// Storage key for persisting GCLID across page navigation
+const GCLID_STORAGE_KEY = "g1_gclid";
+const UTM_STORAGE_KEY = "g1_utm_params";
 
 const STEPS = [
   {
@@ -74,7 +78,69 @@ export function LeadForm({ formId = "lead-form", variant = "light" }: LeadFormPr
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Captured tracking params (stored on initial page load)
+  const [capturedParams, setCapturedParams] = useState({
+    utm_source: "",
+    utm_medium: "",
+    utm_campaign: "",
+    utm_content: "",
+    utm_term: "",
+    gclid: "",
+  });
+
   const router = useRouter();
+
+  // Capture GCLID and UTM params on initial load and persist to sessionStorage
+  useEffect(() => {
+    // Try to get from URL first (fresh ad click)
+    const urlGclid = searchParams.get("gclid") || "";
+    const urlUtmSource = searchParams.get("utm_source") || "";
+    const urlUtmMedium = searchParams.get("utm_medium") || "";
+    const urlUtmCampaign = searchParams.get("utm_campaign") || "";
+    const urlUtmContent = searchParams.get("utm_content") || "";
+    const urlUtmTerm = searchParams.get("utm_term") || "";
+
+    // If we have a GCLID in URL, save it to sessionStorage
+    if (urlGclid) {
+      sessionStorage.setItem(GCLID_STORAGE_KEY, urlGclid);
+      console.log("📍 GCLID captured from URL:", urlGclid);
+    }
+
+    // If we have UTM params in URL, save them
+    if (urlUtmSource || urlUtmMedium || urlUtmCampaign) {
+      const utmData = {
+        utm_source: urlUtmSource,
+        utm_medium: urlUtmMedium,
+        utm_campaign: urlUtmCampaign,
+        utm_content: urlUtmContent,
+        utm_term: urlUtmTerm,
+      };
+      sessionStorage.setItem(UTM_STORAGE_KEY, JSON.stringify(utmData));
+      console.log("📍 UTM params captured from URL:", utmData);
+    }
+
+    // Now read from sessionStorage (which has fresh URL data or previous visit data)
+    const storedGclid = sessionStorage.getItem(GCLID_STORAGE_KEY) || "";
+    const storedUtm = sessionStorage.getItem(UTM_STORAGE_KEY);
+    const parsedUtm = storedUtm ? JSON.parse(storedUtm) : {};
+
+    const finalParams = {
+      utm_source: urlUtmSource || parsedUtm.utm_source || "",
+      utm_medium: urlUtmMedium || parsedUtm.utm_medium || "",
+      utm_campaign: urlUtmCampaign || parsedUtm.utm_campaign || "",
+      utm_content: urlUtmContent || parsedUtm.utm_content || "",
+      utm_term: urlUtmTerm || parsedUtm.utm_term || "",
+      gclid: urlGclid || storedGclid,
+    };
+
+    setCapturedParams(finalParams);
+
+    if (finalParams.gclid) {
+      console.log("✅ GCLID will be included in form submission:", finalParams.gclid);
+    } else {
+      console.log("ℹ️ No GCLID found (direct visit or organic traffic)");
+    }
+  }, [searchParams]);
 
   const handleOptionSelect = (stepId: string, value: string) => {
     setAnswers((prev) => ({ ...prev, [stepId]: value }));
@@ -102,16 +168,17 @@ export function LeadForm({ formId = "lead-form", variant = "light" }: LeadFormPr
     setIsSubmitting(true);
     setError(null);
 
-    const utmParams = {
-      utm_source: searchParams.get("utm_source") || "",
-      utm_medium: searchParams.get("utm_medium") || "",
-      utm_campaign: searchParams.get("utm_campaign") || "",
-      utm_content: searchParams.get("utm_content") || "",
-      utm_term: searchParams.get("utm_term") || "",
-      gclid: searchParams.get("gclid") || "",
-    };
+    // Use captured params (stored on page load, not current URL)
+    const utmParams = capturedParams;
+
+    // LOGGING: Form submission started
+    console.log("=== LEAD FORM SUBMISSION ===");
+    console.log("1. Submit button clicked");
+    console.log("2. Form data:", { ...answers, ...utmParams });
+    console.log("3. GCLID (captured on page load):", utmParams.gclid || "(none - direct visit)");
 
     try {
+      console.log("4. Sending to /api/lead...");
       const response = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -120,20 +187,33 @@ export function LeadForm({ formId = "lead-form", variant = "light" }: LeadFormPr
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.error("Lead submission failed:", errorData);
+        console.error("5. API FAILED:", errorData);
+        console.error("❌ Conversion NOT fired (API failed)");
         throw new Error(errorData.details || "Submission failed");
       }
 
+      console.log("5. API SUCCESS - status 200");
+
       // Fire Google Ads conversion
       if (typeof window !== "undefined" && window.gtag) {
+        console.log("6. FIRING GOOGLE ADS CONVERSION");
+        console.log("   send_to: AW-18204362022/cr6wCP3s87scEKaKwuhD");
+        console.log("   GCLID cookie may link this to an earlier ad click");
         window.gtag("event", "conversion", {
           send_to: "AW-18204362022/cr6wCP3s87scEKaKwuhD",
         });
+        console.log("✅ Conversion event sent to Google");
+      } else {
+        console.log("6. gtag not available - conversion NOT fired");
       }
 
+      console.log("7. Redirecting to /thank-you");
+      console.log("=== END SUBMISSION ===");
       router.push("/thank-you");
     } catch (err) {
       console.error("Form submission error:", err);
+      console.error("❌ NO CONVERSION FIRED - form submission failed");
+      console.log("=== END SUBMISSION (FAILED) ===");
       setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
       setIsSubmitting(false);
     }

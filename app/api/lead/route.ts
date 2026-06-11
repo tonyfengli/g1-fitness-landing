@@ -160,6 +160,20 @@ export async function POST(request: NextRequest) {
   try {
     const data: LeadData = await request.json();
 
+    // Log incoming data immediately (so we have it even if Sheets fails)
+    console.log("=== NEW LEAD SUBMISSION ===");
+    console.log("Lead received:", {
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      has_routine: data.has_routine,
+      primary_goal: data.primary_goal,
+      timeline: data.timeline,
+      gclid: data.gclid || "(none)",
+      utm_source: data.utm_source || "(none)",
+      utm_campaign: data.utm_campaign || "(none)",
+    });
+
     // 1. Validate required fields
     if (!data.name || !data.email || !data.phone) {
       return NextResponse.json(
@@ -186,8 +200,7 @@ export async function POST(request: NextRequest) {
     // 5. Send SMS notification
     await sendSmsNotification(data);
 
-    // Log for debugging
-    console.log("Lead received:", { timestamp, ...data });
+    console.log("=== LEAD SUBMISSION COMPLETE ===");
 
     // 6. Return success
     return NextResponse.json({ success: true });
