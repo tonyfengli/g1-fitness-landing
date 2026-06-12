@@ -111,7 +111,7 @@ export default function GroupClassesLandingPage() {
       {/* What You Get With Us Section */}
       <section className="py-10 md:py-12 px-4 md:px-8 bg-white">
         <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="grid md:grid-cols-2 gap-12 items-start">
             {/* David's Before/After */}
             <div className="relative">
               <div className="grid grid-cols-2 gap-4">
@@ -139,7 +139,7 @@ export default function GroupClassesLandingPage() {
             {/* Features Accordion */}
             <div>
               <h2 className="font-bebas text-4xl md:text-5xl uppercase text-[#1a1c1c] mb-8">
-                Real <span className="text-[#bb0012]">Results</span> From Our Workouts
+                Why It Works
               </h2>
               <FeatureAccordion />
             </div>
@@ -225,16 +225,36 @@ export default function GroupClassesLandingPage() {
             </div>
 
             {/* Video */}
-            <div className="relative aspect-video bg-[#e2e2e2] flex items-center justify-center">
-              <div className="text-center text-[#5f5e5e]">
-                <div className="w-20 h-20 rounded-full bg-[#bb0012]/20 flex items-center justify-center mx-auto mb-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-10 h-10 text-[#bb0012]">
-                    <path fillRule="evenodd" d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <span className="text-sm">PT Video</span>
+            <div>
+              {/* Label */}
+              <div className="mb-4">
+                <p className="text-xs uppercase tracking-[0.2em] text-[#5f5e5e] mb-1">Form Check with</p>
+                <p className="font-bebas text-2xl uppercase text-[#1a1c1c]">
+                  Coach Kyle, Doctor of Physical Therapy
+                </p>
               </div>
-              {/* Replace with actual video */}
+
+              {/* Video Container */}
+              <div className="relative aspect-video bg-[#1a1c1c] flex items-center justify-center group cursor-pointer overflow-hidden">
+                {/* Placeholder overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10" />
+
+                {/* Play button */}
+                <div className="relative z-20 text-center">
+                  <div className="w-20 h-20 rounded-full bg-white/90 group-hover:bg-white flex items-center justify-center mx-auto transition-all group-hover:scale-110 shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 text-[#bb0012] ml-1">
+                      <path fillRule="evenodd" d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Bottom caption */}
+                <div className="absolute bottom-0 left-0 right-0 z-20 p-4">
+                  <p className="text-white/80 text-sm">Watch: Proper Back Row Technique</p>
+                </div>
+
+                {/* Replace with actual video/thumbnail */}
+              </div>
             </div>
           </div>
           <div className="text-center mt-12">

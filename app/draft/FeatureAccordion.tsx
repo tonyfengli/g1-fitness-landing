@@ -30,7 +30,7 @@ type FeatureWithSections = Feature & {
 
 const FEATURES: FeatureWithSections[] = [
   {
-    title: "Semi-Private & Group Classes",
+    title: "Semi-Private & Group Class Options",
     description: "",
     sections: [
       {
