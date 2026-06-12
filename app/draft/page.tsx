@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { Suspense } from "react";
 import { LeadForm } from "@/components/shared/LeadForm";
 import { CTAButton } from "./CTAButton";
 import { FeatureAccordion } from "./FeatureAccordion";
@@ -142,9 +141,7 @@ export default function GroupClassesLandingPage() {
               <h2 className="font-bebas text-4xl md:text-5xl uppercase text-[#1a1c1c] mb-8">
                 Real <span className="text-[#bb0012]">Results</span> From Our Workouts
               </h2>
-              <Suspense fallback={<div>Loading...</div>}>
-                <FeatureAccordion />
-              </Suspense>
+              <FeatureAccordion />
             </div>
           </div>
         </div>
