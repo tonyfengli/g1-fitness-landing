@@ -3,9 +3,9 @@
 import { useRef } from "react";
 import Image from "next/image";
 
-// Gallery display order - rearrange numbers to change order
-// Example: [3, 1, 2, 4, 5] shows photo-3 first, then photo-1, etc.
-const GALLERY_ORDER = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+// Photos that have real images (add numbers here as you add photos)
+const REAL_PHOTOS = [1];
+const PHOTOS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
 export function GalleryCarousel() {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -50,19 +50,21 @@ export function GalleryCarousel() {
         className="flex gap-4 overflow-x-auto scrollbar-hide px-4 md:px-12 py-4 scroll-smooth"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
-        {GALLERY_ORDER.map((photoNum) => (
+        {PHOTOS.map((i) => (
           <div
-            key={photoNum}
-            className="relative flex-shrink-0 w-80 md:w-96 aspect-[4/3] bg-[#e2e2e2] overflow-hidden"
+            key={i}
+            className="relative flex-shrink-0 w-64 md:w-80 aspect-square bg-[#e2e2e2] flex items-center justify-center overflow-hidden"
           >
-            <Image
-              src={`/gallery/photo-${photoNum}.jpg`}
-              alt="G1 Community"
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 320px, 384px"
-              onError={() => console.error(`Failed to load photo-${photoNum}.jpg`)}
-            />
+            {REAL_PHOTOS.includes(i) ? (
+              <Image
+                src={`/gallery/photo-${i}.jpg`}
+                alt="G1 Community"
+                fill
+                className="object-cover"
+              />
+            ) : (
+              <span className="text-sm text-[#5f5e5e]">Photo {i}</span>
+            )}
           </div>
         ))}
       </div>
