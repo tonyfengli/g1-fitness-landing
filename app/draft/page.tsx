@@ -4,6 +4,7 @@ import { LeadForm } from "@/components/shared/LeadForm";
 import { CTAButton } from "./CTAButton";
 import { FeatureAccordion } from "./FeatureAccordion";
 import { GalleryCarousel } from "./GalleryCarousel";
+import { HeroVideo } from "./HeroVideo";
 
 export default function GroupClassesLandingPage() {
   return (
@@ -79,18 +80,7 @@ export default function GroupClassesLandingPage() {
       <section className="relative min-h-[80vh] md:min-h-[90vh] flex items-center justify-center px-4 md:px-8">
         {/* Video Background */}
         <div className="absolute inset-0 z-0 overflow-hidden">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            className="w-full h-full object-cover"
-            poster="/hero.jpg"
-          >
-            <source src="/hero-video.webm" type="video/webm" />
-            <source src="/hero-video.mp4" type="video/mp4" />
-          </video>
+          <HeroVideo />
           <div className="absolute inset-0 bg-black/60" />
         </div>
 
