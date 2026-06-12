@@ -58,15 +58,18 @@ interface FormAnswers {
 interface LeadFormProps {
   formId?: string;
   variant?: "light" | "dark" | "clean" | "tech";
+  skipQuiz?: boolean;
+  hideHeading?: boolean;
 }
 
-export function LeadForm({ formId = "lead-form", variant = "light" }: LeadFormProps) {
+export function LeadForm({ formId = "lead-form", variant = "light", skipQuiz = false, hideHeading = false }: LeadFormProps) {
   const isDark = variant === "dark";
   const isClean = variant === "clean";
   const isTech = variant === "tech";
   const searchParams = useSearchParams();
 
-  const [currentStep, setCurrentStep] = useState(0);
+  // If skipQuiz is true, start at the contact step (skip all quiz steps)
+  const [currentStep, setCurrentStep] = useState(skipQuiz ? STEPS.length : 0);
   const [answers, setAnswers] = useState<FormAnswers>({
     has_routine: "",
     primary_goal: "",
@@ -220,7 +223,9 @@ export function LeadForm({ formId = "lead-form", variant = "light" }: LeadFormPr
   };
 
   const isContactStep = currentStep === STEPS.length;
-  const progress = ((currentStep + 1) / TOTAL_STEPS) * 100;
+  const totalSteps = skipQuiz ? 1 : TOTAL_STEPS;
+  const currentStepNumber = skipQuiz ? 1 : currentStep + 1;
+  const progress = (currentStepNumber / totalSteps) * 100;
 
   // Visibility/opacity styles for crossfade effect
   const getStepStyles = (isVisible: boolean): React.CSSProperties => ({
@@ -233,23 +238,27 @@ export function LeadForm({ formId = "lead-form", variant = "light" }: LeadFormPr
 
   return (
     <div className="w-full max-w-2xl mx-auto">
-      {/* Progress bar */}
-      <div className="mb-4">
-        <div className={`h-1 overflow-hidden ${isDark ? "bg-[#262626]" : isClean ? "bg-[#e2e2e2]" : isTech ? "bg-[#334155]" : "bg-gray-200"}`}>
-          <div
-            className={`h-full transition-all duration-300 ease-out ${isDark ? "bg-[#ff2e2e]" : isClean ? "bg-[#bb0012]" : isTech ? "bg-[#e11d48]" : "bg-gray-900"}`}
-            style={{ width: `${progress}%` }}
-          />
+      {/* Progress bar - hidden when skipQuiz */}
+      {!skipQuiz && (
+        <div className="mb-4">
+          <div className={`h-1 overflow-hidden ${isDark ? "bg-[#262626]" : isClean ? "bg-[#e2e2e2]" : isTech ? "bg-[#334155]" : "bg-gray-200"}`}>
+            <div
+              className={`h-full transition-all duration-300 ease-out ${isDark ? "bg-[#ff2e2e]" : isClean ? "bg-[#bb0012]" : isTech ? "bg-[#e11d48]" : "bg-gray-900"}`}
+              style={{ width: `${progress}%` }}
+            />
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* Step counter - always visible */}
-      <p className={`text-xs uppercase tracking-widest text-center mb-4 ${isDark ? "text-[#737373]" : isClean ? "text-[#5f5e5e]" : isTech ? "text-[#94a3b8] font-mono" : "text-gray-400"}`}>
-        {currentStep + 1} of {TOTAL_STEPS}
-      </p>
+      {/* Step counter - hidden when skipQuiz */}
+      {!skipQuiz && (
+        <p className={`text-xs uppercase tracking-widest text-center mb-4 ${isDark ? "text-[#737373]" : isClean ? "text-[#5f5e5e]" : isTech ? "text-[#94a3b8] font-mono" : "text-gray-400"}`}>
+          {currentStepNumber} of {totalSteps}
+        </p>
+      )}
 
       {/* Step 1 - Yes/No - rendered separately (no dead space) */}
-      {currentStep === 0 && (
+      {!skipQuiz && currentStep === 0 && (
         <div>
           <h2 className={`text-lg font-semibold mb-3 text-center ${isDark ? "text-white" : isClean ? "text-[#1a1c1c]" : isTech ? "text-[#d4e4fa]" : ""}`}>
             {STEPS[0].question}
@@ -278,7 +287,7 @@ export function LeadForm({ formId = "lead-form", variant = "light" }: LeadFormPr
       )}
 
       {/* Grid stack container - Steps 2 & 3 only (similar heights) */}
-      {currentStep >= 1 && !isContactStep && (
+      {!skipQuiz && currentStep >= 1 && !isContactStep && (
         <div className="grid items-start" style={{ gridTemplateColumns: "1fr", gridTemplateRows: "auto" }}>
           {STEPS.slice(1).map((step, idx) => {
             const index = idx + 1; // actual step index
@@ -320,12 +329,11 @@ export function LeadForm({ formId = "lead-form", variant = "light" }: LeadFormPr
       {/* Contact Info Step - rendered separately */}
       {isContactStep && (
           <form onSubmit={handleSubmit}>
-            <h2 className={`text-2xl font-semibold mb-2 text-center ${isDark ? "text-white" : isClean ? "text-[#1a1c1c]" : isTech ? "text-[#d4e4fa]" : ""}`}>
-              Where should we reach you?
-            </h2>
-            <p className={`text-center mb-6 ${isDark ? "text-[#737373]" : isClean ? "text-[#5f5e5e]" : isTech ? "text-[#bec6e0]" : "text-gray-600"}`}>
-              We&apos;ll reach out to schedule your free week.
-            </p>
+            {!hideHeading && (
+              <h2 className={`text-2xl font-semibold mb-6 text-center ${isDark ? "text-white" : isClean ? "text-[#1a1c1c]" : isTech ? "text-[#d4e4fa]" : ""}`}>
+                Start Your <span className="text-[#bb0012]">Free Week</span>
+              </h2>
+            )}
             <div className="space-y-4">
               <div>
                 <label htmlFor={`${formId}-name`} className={`block text-sm font-medium mb-1 ${isDark ? "text-[#737373] uppercase tracking-wider" : isClean ? "text-[#5f5e5e] uppercase tracking-wider" : isTech ? "text-[#94a3b8] uppercase tracking-wider font-mono text-xs" : "text-gray-700"}`}>
@@ -419,7 +427,7 @@ export function LeadForm({ formId = "lead-form", variant = "light" }: LeadFormPr
                   : "bg-gray-900 text-white rounded-lg hover:bg-gray-800 disabled:bg-gray-400"
               }`}
             >
-              {isSubmitting ? "Submitting..." : "Get My Free Week"}
+              {isSubmitting ? "Submitting..." : "Submit"}
             </button>
 
             <p className={`mt-4 text-xs text-center ${isDark ? "text-[#737373]" : isClean ? "text-[#5f5e5e]" : isTech ? "text-[#94a3b8]" : "text-gray-500"}`}>
@@ -436,8 +444,8 @@ export function LeadForm({ formId = "lead-form", variant = "light" }: LeadFormPr
           </form>
       )}
 
-      {/* Back Button */}
-      {currentStep > 0 && (
+      {/* Back Button - hidden when skipQuiz */}
+      {!skipQuiz && currentStep > 0 && (
         <button
           type="button"
           onClick={handleBack}
